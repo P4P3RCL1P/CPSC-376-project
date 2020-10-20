@@ -2,11 +2,14 @@
 ;;;; David Gillette & Adam Schultz
 ;;;; 9/20/2020
 
-(defconst ROWS 39 "Number of rows in maze")        ;should by dynamically set based on user input
-(defconst COLUMNS 24 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
+(defconst ROWS 15 "Number of rows in maze")        ;should by dynamically set based on user input
+(defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
 (defvar *totalCells*) 
 (setf totalCells (* ROWS COLUMNS))
 ;;list of a 15x15 maze
+(setq m-array (make-vector 15 nil))
+(dotimes (i 15)
+  (setf (aref m-array i) (make-vector 15 0)))
 (setq bigMaze1 '(
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 0 x 0 x x x x x x x 0 0 0 0 0 
@@ -22,24 +25,29 @@
 0 0 0 0 0 0 x x 0 0 x x x 0 0 
 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 
 0 0 0 0 0 x x x 0 x x 0 0 0 0 
-0 0 0 0 0 0 0 X 0 X 0 0 0 0 0 
-))
+0 0 0 0 0 0 0 X 0 o 0 0 0 0 0 
+)) 
 
-(defun printMaze()
-;;loop starts at 1 not 0
-(setq upper (+ (* 15 15) 1))
-(loop for i from 0 below upper do
-  (if (= (mod 15 i) 0))
-    (message "")
-  )
-  (message bigMaze1(i))
-  ;;im in the call if youre done with your call
-    
-))
+(defun file-to-matrix (filename)
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (let ((list '()))
+      (while (not (eobp))   ;similar to eof in c++. Searches for end of the accessible portion of text
+        (let ((beg (point)))
+          (move-end-of-line nil)   ;set new line if text has a nil (null) value while reading in the file (sets distinct rows)
+          (push (split-string (buffer-substring beg (point)) " ") list)
+          (forward-char)))
+      (nreverse list))))
+
 
 ;; Maze in buffer is being formatted incorrectly. Perhaps this is in part because you can adjust the size of the buffer. Look into way for making output of function set to a fixed size rather than dynamically changing. May be more useful to use xs and dashes instead of formating a maze in unicode.;; 
 
-(defun startMaze ())
+(defun startMaze ()
+  (message "Here is your maze:")
+  (find-file "maze")
+  
+ 
+ )
 
 (defun initializeMaze ()
   (interactive)
@@ -58,7 +66,7 @@
 
 
 ;;binding keys
-(def bindKeys () (
+(defun bindKeys () (
   (global-set-key (w) 'up)
   (global-set-key (a) 'left)
   (global-set-key (s) 'down)
@@ -70,27 +78,32 @@
 
 ;;functions to move up. down. left and right inside the maze.
 (defun down (pos) (
- ;;moves the user down in the list if they can
+  (if (equals (bigMaze1((+ pos ROWS))) 0)
+      nil   ;;then part
+    (+ pos ROWS) ;;else part
+  )
 )
 
 (defun up (pos) (
-;;moves theuser up if they can
+  (if (equals (bigMaze1((- pos ROWS))) 0)
+      nil   ;;then part
+    (- pos ROWS) ;;else part
+  )  
 )
 
 (defun left (pos) (
-;; moves the user left if they can
+  (if (equals (bigMaze1((- pos 1))) 0)
+      nil   ;;then part
+    (- pos 1) ;;else part
+  )  
 )
 
 (defun right (pos) (
-;;moves the user right if they can
-) 
-
-(defq maze1Rows 6)
-(defq maze1Cols 6)
-
-
-
-
+  (if (equals (bigMaze1((+ pos 1))) 0)
+      nil   ;;then part
+    (+ pos 1) ;;else part
+  )  
+)
 
 
      
