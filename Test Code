@@ -1,0 +1,39 @@
+(defun printMaze()
+(loop for i from 0 below totalCells do
+  (if (= (mod 15 i) 0))
+  (message bigMaze1(i))   
+))
+
+|# all below is commented out
+#####0--####
+#####-#-####
+#####-#-####
+#####------X
+
+
+;; This is an array ;;
+(defparameter *my-array* ( make-array '(5 5) :initial-element 'W'))
+
+* (destructuring-bind (n m) (array-dimensions a)
+    (loop for i from 0 below 5 do 
+      (loop for j from 0 below 5 do 
+        my-array[i j] = 'X'
+      )
+    )
+  )
+
+
+;;other way we will prob do it;;
+
+
+
+0 0 0 0 0 0
+0 x 0 x x 0
+0 x x x 0 0
+0 0 0 x x 0
+0 x x x 0 0
+0 0 x 0 0 0 
+
+* (defparameter 2dArray #2A(X X W X X) (X X W X X) (X X W X X) (X X W X X) (X X W X X)))
+
+#|

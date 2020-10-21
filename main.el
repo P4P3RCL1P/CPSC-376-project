@@ -6,28 +6,10 @@
 (defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
 (defvar *totalCells*) 
 (setf totalCells (* ROWS COLUMNS))
-;;list of a 15x15 maze
-(setq m-array (make-vector 15 nil))
-(dotimes (i 15)
-  (setf (aref m-array i) (make-vector 15 0)))
-(setq bigMaze1 '(
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 x 0 x x x x x x x 0 0 0 0 0 
-0 x x x 0 0 x 0 0 x x x 0 0 0 
-0 0 0 x x 0 x 0 0 0 0 x 0 0 0 
-0 x x x 0 0 x x x x x x x x 0 
-0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 
-0 0 0 0 0 0 x x x x x 0 0 x 0 
-0 0 0 0 0 x x 0 0 x 0 0 x x 0 
-0 0 x x x x 0 0 x x 0 x x 0 0 
-0 x x 0 0 x x x 0 x 0 0 x x 0 
-0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 
-0 0 0 0 0 0 x x 0 0 x x x 0 0 
-0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 
-0 0 0 0 0 x x x 0 x x 0 0 0 0 
-0 0 0 0 0 0 0 X 0 o 0 0 0 0 0 
-)) 
+;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
+
+;;;;may need to utilize this at a later point. 
 (defun file-to-matrix (filename)
   (with-temp-buffer
     (insert-file-contents filename)
@@ -42,16 +24,22 @@
 
 ;; Maze in buffer is being formatted incorrectly. Perhaps this is in part because you can adjust the size of the buffer. Look into way for making output of function set to a fixed size rather than dynamically changing. May be more useful to use xs and dashes instead of formating a maze in unicode.;; 
 
+(defun read-lines(filePath)
+    (with-temp-buffer
+      (insert-file-contents filePath nil 0 500)
+      (split-string (buffer-string) "\n" t)))
+
 (defun startMaze ()
   (message "Here is your maze:")
-  (find-file "maze")
-  
- 
+  (defvar maze)
+  (setf maze (insert-file-contents "maze" nil 0 500))
+  (defvar mazeList)
+  (setf mazeList (read-lines "maze"))
  )
 
 (defun initializeMaze ()
   (interactive)
-  (message "Welcome %s !" (read-string "Enter your name:"))
+  (message (read-string "Enter your name:"))
   
   (if (y-or-n-p "Would you like to solve a maze?")
     (progn
@@ -104,39 +92,3 @@
     (+ pos 1) ;;else part
   )  
 )
-
-
-     
-|# all below is commented out
-#####0--####
-#####-#-####
-#####-#-####
-#####------X
-
-
-;; This is an array ;;
-(defparameter *my-array* ( make-array '(5 5) :initial-element 'W'))
-
-* (destructuring-bind (n m) (array-dimensions a)
-    (loop for i from 0 below 5 do 
-      (loop for j from 0 below 5 do 
-        my-array[i j] = 'X'
-      )
-    )
-  )
-
-
-;;other way we will prob do it;;
-
-
-
-0 0 0 0 0 0
-0 x 0 x x 0
-0 x x x 0 0
-0 0 0 x x 0
-0 x x x 0 0
-0 0 x 0 0 0 
-
-* (defparameter 2dArray #2A(X X W X X) (X X W X X) (X X W X X) (X X W X X) (X X W X X)))
-
-#|
