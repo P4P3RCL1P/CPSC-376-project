@@ -9,32 +9,37 @@
 ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
 
-;;;;may need to utilize this at a later point. 
+;;macgyvered method of having 2d arrays because elisp did not build them into their language design.
 (defun file-to-matrix (filename)
   (with-temp-buffer
     (insert-file-contents filename)
-    (let ((list '()))
-      (while (not (eobp))   ;similar to eof in c++. Searches for end of the accessible portion of text
+    (let ((list '()))  ;define list to store a list of a list. This will help make up for the lack of support of 2d arrays and matrices
+      (while (not (eobp))   ;similar to eof in c++. Searches for end of the accessible portion of text or end of the buffer
         (let ((beg (point)))
-          (move-end-of-line nil)   ;set new line if text has a nil (null) value while reading in the file (sets distinct rows)
+          (move-end-of-line nil)   ;set new line if text has a nil (null) value while reading in the file sets distinct rows
           (push (split-string (buffer-substring beg (point)) " ") list)
           (forward-char)))
       (nreverse list))))
 
 
+
 ;; Maze in buffer is being formatted incorrectly. Perhaps this is in part because you can adjust the size of the buffer. Look into way for making output of function set to a fixed size rather than dynamically changing. May be more useful to use xs and dashes instead of formating a maze in unicode.;; 
 
-(defun read-lines(filePath)
+(defun printMaze(filePath)
     (with-temp-buffer
       (insert-file-contents filePath nil 0 500)
-      (split-string (buffer-string) "\n" t)))
+      (split-string (buffer-string) "\n" t)
+      ;;(while (not (eobp))
+        ;;(if (eq (point) "o") (goto-char (point)))
+        ;find a method of iterating through matrix
+      ))
 
 (defun startMaze ()
   (message "Here is your maze:")
   (defvar maze)
   (setf maze (insert-file-contents "maze" nil 0 500))
   (defvar mazeList)
-  (setf mazeList (read-lines "maze"))
+  (setf mazeList (file-to-matrix "maze"))
  )
 
 (defun initializeMaze ()
@@ -92,3 +97,4 @@
     (+ pos 1) ;;else part
   )  
 )
+

@@ -4,6 +4,15 @@
   (message bigMaze1(i))   
 ))
 
+
+;;prints out this iteration of the maze.
+(defun printMaze()
+(loop for i from 0 below totalCells do
+  (if (= (mod 15 i) 0))
+  (message bigMaze1(i))   
+)))
+
+
 |# all below is commented out
 #####0--####
 #####-#-####
