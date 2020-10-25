@@ -1,8 +1,4 @@
-(defun printMaze()
-(loop for i from 0 below totalCells do
-  (if (= (mod 15 i) 0))
-  (message bigMaze1(i))   
-))
+
 
 
 ;;prints out this iteration of the maze.
@@ -45,4 +41,32 @@
 
 * (defparameter 2dArray #2A(X X W X X) (X X W X X) (X X W X X) (X X W X X) (X X W X X)))
 
-#|
+
+
+
+
+;;start pog
+(defun MAZE-START ()
+  (defvar col-pos)
+  (defvar row-pos)
+  (setf pos 
+    (setq row 0)
+    (while (< row ROWS)
+      (while (< col COLS)
+        ;;array call here to see if element is a o then set the row to row-pos and col to col-pos
+        (if (
+      )
+    )
+  )
+
+;;this is basically the game
+(initializeMaze)
+(while (;;they arent an X I will put this in when we decide on list or get the array working)
+  (interactive)
+  ;;the message would call the print maze function passing the current position of the user which would be marked with a U or something
+  (message printMaze(col-pos, row-pos) (read-string))
+  (if (w up))
+  (if (s down))
+  (if (a left))
+  (if (d right))
+)

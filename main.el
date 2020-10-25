@@ -1,6 +1,10 @@
+
 ;;;; CPSC 376 Pathfinding Algorithm
 ;;;; David Gillette & Adam Schultz
 ;;;; 9/20/2020
+
+
+
 
 (defconst ROWS 15 "Number of rows in maze")        ;should by dynamically set based on user input
 (defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
@@ -16,7 +20,7 @@
     (let ((list '()))  ;define list to store a list of a list. This will help make up for the lack of support of 2d arrays and matrices
       (while (not (eobp))   ;similar to eof in c++. Searches for end of the accessible portion of text or end of the buffer
         (let ((beg (point)))
-          (move-end-of-line nil)   ;set new line if text has a nil (null) value while reading in the file sets distinct rows
+          (move-end-of-line nil)   ;;set new line if text has a nil (null) value while reading in the file sets distinct rows
           (push (split-string (buffer-substring beg (point)) " ") list)
           (forward-char)))
       (nreverse list))))
@@ -54,7 +58,6 @@
     (message "Too bad, see you next time!")
   )
   ))
-
 
 
 
