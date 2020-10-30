@@ -1,16 +1,12 @@
-
 ;;;; CPSC 376 Pathfinding Algorithm
 ;;;; David Gillette & Adam Schultz
 ;;;; 9/20/2020
-
-
-
-
 (defconst ROWS 15 "Number of rows in maze")        ;should by dynamically set based on user input
 (defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
 (defvar *totalCells*) 
 (setf totalCells (* ROWS COLUMNS))
 ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
+
 
 
 ;;macgyvered method of having 2d arrays because elisp did not build them into their language design.
@@ -24,27 +20,43 @@
           (push (split-string (buffer-substring beg (point)) " ") list)
           (forward-char)))
       (nreverse list))))
+(setq mazy (list 
+  '(x x x x x)
+  '(x 0 0 x x)
+  '(x x x x x)
+  '(x x x x x)
+  '(x x x x x)
+))
+(defun iterateMaze (mazeList)    
+(with-temp-buffer
+(insert-file-contents "maze" nil 0 500)
+  (if (eq (point) "o")
+   (goto-char (point)))
+  )
+)
 
+;;THIS IS DONE AND WORKS!!!!
+(defun printMaze (mazer)
+  (progn 
+    (princ (car mazer))
+    (terpri))
+  (if (cdr mazer)    
+    (printMaze 
+      (cdr mazer))
+  )
+)
 
-
-;; Maze in buffer is being formatted incorrectly. Perhaps this is in part because you can adjust the size of the buffer. Look into way for making output of function set to a fixed size rather than dynamically changing. May be more useful to use xs and dashes instead of formating a maze in unicode.;; 
-
-(defun printMaze(filePath)
-    (with-temp-buffer
-      (insert-file-contents filePath nil 0 500)
-      (split-string (buffer-string) "\n" t)
-      ;;(while (not (eobp))
-        ;;(if (eq (point) "o") (goto-char (point)))
-        ;find a method of iterating through matrix
-      ))
 
 (defun startMaze ()
-  (message "Here is your maze:")
-  (defvar maze)
-  (setf maze (insert-file-contents "maze" nil 0 500))
-  (defvar mazeList)
-  (setf mazeList (file-to-matrix "maze"))
- )
+    (message "Here is your maze:")
+    (evaluate-silently
+      (with-temp-buffer  
+      (defvar maze)
+      (setf maze(insert-file-contents "maze" nil 0 500))
+      (defvar mazeList)
+      (setf mazeList(file-to-matrix "maze")))      )
+    (printMaze mazeList)
+)
 
 (defun initializeMaze ()
   (interactive)
@@ -57,7 +69,7 @@
   (progn
     (message "Too bad, see you next time!")
   )
-  ))
+))
 
 
 
