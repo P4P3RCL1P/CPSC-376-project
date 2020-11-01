@@ -7,8 +7,9 @@
 (setf totalCells (* ROWS COLUMNS))
 ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
-
-
+(require 'ido)
+(require 'cl-lib)
+(load "cl-extra")
 ;;macgyvered method of having 2d arrays because elisp did not build them into their language design.
 (defun file-to-matrix (filename)
   (with-temp-buffer
@@ -29,7 +30,7 @@
 ))
 (defun iterateMaze (mazeList)    
 (with-temp-buffer
-(insert-file-contents "maze" nil 0 500)
+(insert-file-contents "maze.txt" nil 0 500)
   (if (eq (point) "o")
    (goto-char (point)))
   )
@@ -49,27 +50,38 @@
 
 (defun startMaze ()
     (message "Here is your maze:")
-    (evaluate-silently
       (with-temp-buffer  
       (defvar maze)
-      (setf maze(insert-file-contents "maze" nil 0 500))
+      (setf maze(insert-file-contents "maze.txt" nil 0 500))
       (defvar mazeList)
-      (setf mazeList(file-to-matrix "maze")))      )
-    (printMaze mazeList)
-)
-
+      (setf mazeList(file-to-matrix "maze.txt")))
+      (printMaze mazeList)
+	;;(cl-loop for i from 0 below (length '(mazeList)) do
+		;;(cl-loop for j from 0 below (length '(mazeList)) do
+		       ;;(message "mazeList[~mazeList ~mazeList] = ~mazeList~%" i j)))
+                       ;;tried iterating through list. Might have to reduce dimensionality of the list first or implement multiple loops for each dimension
+      )
+(defun pickMaze()
+  (interactive)
+  (let ((choices '("1" "2" "3")))
+    (ido-completing-read "Choose the maze you would like to load:" choices)))
+    
+  ;; this is not working yet, but if we wanted to have the user choose which maze this would be how we would do it
+    
+  )
 (defun initializeMaze ()
   (interactive)
   (message (read-string "Enter your name:"))
   
   (if (y-or-n-p "Would you like to solve a maze?")
     (progn
-      (startMaze)
+      (pickMaze)
     )
   (progn
     (message "Too bad, see you next time!")
+   )
   )
-))
+ )
 
 
 
@@ -79,8 +91,8 @@
   (global-set-key (a) 'left)
   (global-set-key (s) 'down)
   (global-set-key (d) 'right)
+ )
 )
-
 ;;unbinding keys (if needed)
 
 
@@ -89,6 +101,7 @@
   (if (equals (bigMaze1((+ pos ROWS))) 0)
       nil   ;;then part
     (+ pos ROWS) ;;else part
+    )
   )
 )
 
@@ -96,6 +109,7 @@
   (if (equals (bigMaze1((- pos ROWS))) 0)
       nil   ;;then part
     (- pos ROWS) ;;else part
+   )
   )  
 )
 
@@ -103,6 +117,7 @@
   (if (equals (bigMaze1((- pos 1))) 0)
       nil   ;;then part
     (- pos 1) ;;else part
+    )
   )  
 )
 
@@ -110,6 +125,6 @@
   (if (equals (bigMaze1((+ pos 1))) 0)
       nil   ;;then part
     (+ pos 1) ;;else part
+    )
   )  
 )
-
