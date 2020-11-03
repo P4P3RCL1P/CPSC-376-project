@@ -36,6 +36,8 @@
   )
 )
 
+
+
 ;;THIS IS DONE AND WORKS!!!!
 (defun printMaze (mazer)
   (progn 
@@ -63,12 +65,13 @@
       )
 (defun pickMaze()
   (interactive)
-  (let ((choices '("1" "2" "3")))
-    (ido-completing-read "Choose the maze you would like to load:" choices)))
-    
-  ;; this is not working yet, but if we wanted to have the user choose which maze this would be how we would do it
-    
-  )
+  (message "Choose the maze you would like to see (1, 2, or 3)")
+  (cl-case (read-char)
+    (?1 (startMaze))
+    (?2 (startMaze))
+    (?3 (startMaze))
+    (t (message "invalid input")))
+)
 (defun initializeMaze ()
   (interactive)
   (message (read-string "Enter your name:"))
