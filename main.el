@@ -5,6 +5,12 @@
 (defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
 (defvar *totalCells*) 
 (setf totalCells (* ROWS COLUMNS))
+(defvar maze1)
+(setf maze1 "maze.txt")
+(defvar maze2)
+(setf maze2 "maze2.txt")
+(defvar maze3)
+(setf maze3 "maze3.txt")
 ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
 (require 'ido)
@@ -50,26 +56,26 @@
 )
 
 
-(defun startMaze ()
+(defun startMaze (userMaze)
     (message "Here is your maze:")
       (with-temp-buffer  
       (defvar maze)
       (setf maze(insert-file-contents "maze.txt" nil 0 500))
       (defvar mazeList)
-      (setf mazeList(file-to-matrix "maze.txt")))
+      (setf mazeList(file-to-matrix userMaze)))
       (printMaze mazeList)
-	;;(cl-loop for i from 0 below (length '(mazeList)) do
-		;;(cl-loop for j from 0 below (length '(mazeList)) do
-		       ;;(message "mazeList[~mazeList ~mazeList] = ~mazeList~%" i j)))
+      ;;(cl-loop for x in mazList
+	;;       for y in mazList
+      ;;	     collect (list mazeList[x] mazeList[y]))
                        ;;tried iterating through list. Might have to reduce dimensionality of the list first or implement multiple loops for each dimension
       )
 (defun pickMaze()
   (interactive)
   (message "Choose the maze you would like to see (1, 2, or 3)")
   (cl-case (read-char)
-    (?1 (startMaze))
-    (?2 (startMaze))
-    (?3 (startMaze))
+    (?1 (startMaze maze))
+    (?2 (startMaze maze2))
+    (?3 (startMaze maze3))
     (t (message "invalid input")))
 )
 (defun initializeMaze ()
