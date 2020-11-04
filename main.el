@@ -131,3 +131,34 @@
     )
   )  
 )
+
+
+;;not 100% if these work but I am done for tonight lol
+;;*NEW* this method fills an 1d array (vector) with the contents of a given file
+(defun file-to-array (file)
+  (with-temp-buffer
+    ;;idk if this works.
+     (setq tempList (cl-loop for x in (insert-file-contents file) collect x))
+      (setq totalCells (length 'tempList))
+      (nreverse tempList)
+    (setq finalArray (make-vector totalCells tempList))))
+
+
+ ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.
+ (defun startPos (maze)
+   ;;the first x in the maze is the sstarting pos.
+   (progn
+   (cl-loop for x from 0 to (symbol-value totalCells)
+ 	   (setf startPos x)
+	   until (char-equal (aref maze x) 'x')
+ 	   )
+   ))
+
+ ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
+ (defun findRowCol (maze)
+   (progn
+   (setq sqSize (isqrt totalCells))
+   (setf ROWS sqSize)
+   (setf COLS sqSize))
+  )
+     
