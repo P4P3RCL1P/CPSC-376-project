@@ -64,10 +64,17 @@
       (defvar mazeList)
       (setf mazeList(file-to-matrix userMaze)))
       (printMaze mazeList)
-      ;;(cl-loop for x in mazList
-	;;       for y in mazList
-      ;;	     collect (list mazeList[x] mazeList[y]))
-                       ;;tried iterating through list. Might have to reduce dimensionality of the list first or implement multiple loops for each dimension
+      ;;(file-to-array mazeList)
+      ;;parse through 1d array for starting point
+      ;;(startPos mazeList)
+      ;;iterate through maze
+      ;;call ruleset for moving through maze
+      ;;cannot move to O
+      ;;move forward
+      ;;if can't move forward move right
+      ;;if can't move forward move left
+      ;;recursively call previous actions if they worked in the previous iteration
+      ;;update maze file until program reaches o
       )
 (defun pickMaze()
   (interactive)
