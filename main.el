@@ -200,9 +200,23 @@
    (setq COLS sqSize)
    ))
 
-;;*NEW* 11/5 Where we will put out algorithm
+;;NOT DONE YET
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
-
-
-  
+  (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
+  (defvar decisions)
+  (setf decisions '()) ;;store locations where decisions were made
+  (defvar startIndex)
+  (setf startIndex (cl-position 'x mazeArray));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
+  (defvar endIndex)
+  (setf endIndex (cl-position 'o mazeArray))
+  (defvar mazePosition)
+  (setf mazePosition (goto-char startIndex)) ;;variable is updated when decision is made in loop
+  (cl-loop for x in mazeArray until (startIndex)
+	   do((if (equal x startIndex) t
+		(setcar (nthcdr startIndex list) '*)))) ;;change character for starting point
+  (cl-loop for y in mazeArray until (endIndex)
+	   do((goto-char mazePosition)      
   )
+ )
+
+)
