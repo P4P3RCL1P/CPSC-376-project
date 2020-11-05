@@ -13,6 +13,15 @@
 (setf maze3 "maze3.txt")
 ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
+;;start prog - ask what maze - solve the maze
+
+
+
+
+
+
+
+
 (require 'ido)
 (require 'cl-lib)
 (load "cl-extra")
@@ -44,38 +53,50 @@
 
 
 
-;;THIS IS DONE AND WORKS!!!!
-(defun printMaze (mazer)
-  (progn 
-    (princ (car mazer))
-    (terpri))
-  (if (cdr mazer)    
-    (printMaze 
-      (cdr mazer))
-  )
-)
+;;changed 11/5 so that it works with a 1d array instead of a 2d list. sorry had to eliminate recursion,
+;;it was sweet Dr. Sam, sorry you missed it. printed a nested 2d list in 5 lines of code using princ terpri and recursion.
+(defun printMaze (mazer arrSize arrRows)
+    (cl-loop for i from 1 to arrSize
+	     do(if(eq (mod i arrRows) 0)
+		   (terpri))
+	     do(princ (string (aref mazer (- i 1)) " "))))
 
 
-(defun startMaze (userMaze)
-    (message "Here is your maze:")
-      (with-temp-buffer  
-      (defvar maze)
-      (setf maze(insert-file-contents "maze.txt" nil 0 500))
-      (defvar mazeList)
-      (setf mazeList(file-to-matrix userMaze)))
-      (printMaze mazeList)
-      ;;(file-to-array mazeList)
-      ;;parse through 1d array for starting point
-      ;;(startPos mazeList)
-      ;;iterate through maze
-      ;;call ruleset for moving through maze
-      ;;cannot move to O
-      ;;move forward
-      ;;if can't move forward move right
-      ;;if can't move forward move left
-      ;;recursively call previous actions if they worked in the previous iteration
-      ;;update maze file until program reaches o
+;;*KINDANEW* 11/5 Changing this method to be very similar to a "main" method.
+(defun startMaze ()
+    (message "Welcome to the Maze Solver")  
+    (defvar mazeName)
+    ;;starts the maze and asks the user what maze they would like.
+    ;; this sets mazeName with the correct filename of the maze we are using.
+      (setq mazeName (initializeMaze))
+      (with-temp-buffer
+	;;this uses file-to-matrix to create a 1d array that represents the maze.
+	;; file to array also finds the length of the array (not last index, example: '1 '2 '3 = length 3)
+	(setq mazeArr(file-to-array mazeName))
+	;;finds the start index and 
+	(setq startIndex (starPos mazeArr))
+	;;this is a copy of the maze so we have a before and after
+	(setq initialMaze (make-vector totalCells '0))	
+	(cl-loop for x below totalCells
+		 do (aset initialMaze x (aref mazeArr x)))
+	(findRowCol)
+	;;solving the maze
+	(setq mazeArr (solveMaze ROWS COLS totalCells mazeArr)))
+      ;;printing out the unsolved and solved maze.
+      (message "the maze before it was solved:
+")
+      (printMaze initialMaze totalCells)
+      (message "the maze before after it was solved:
+")
+      (printMaze mazeArr totalCells)
+      
       )
+
+
+
+
+
+
 (defun pickMaze()
   (interactive)
   (message "Choose the maze you would like to see (1, 2, or 3)")
@@ -84,7 +105,8 @@
     (?2 (startMaze maze2))
     (?3 (startMaze maze3))
     (t (message "invalid input")))
-)
+  )
+
 (defun initializeMaze ()
   (interactive)
   (message (read-string "Enter your name:"))
@@ -98,7 +120,6 @@
    )
   )
  )
-
 
 
 ;;binding keys
@@ -151,27 +172,37 @@
 (defun file-to-array (file)
   (with-temp-buffer
     ;;idk if this works.
-     (setq tempList (cl-loop for x in (insert-file-contents file) collect x))
-      (setq totalCells (length 'tempList))
-      (nreverse tempList)
-    (setq finalArray (make-vector totalCells tempList))))
+    ;;maybe this instead?km
+    ;;(setq tempList (cl-loop for x in (insert-file-contents file) collect x))
+    (setq tempList (file-to-matrix file))
+    (setq mainList '())
+    (cl-loop for x in tempList
+	     do (push x mainList))
+    (nereverse mainTemp
+    (setq totalCells (length 'tempList))
+    (setq finalArray (make-vector totalCells tempList)))))
 
 
  ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.
  (defun startPos (maze)
    ;;the first x in the maze is the sstarting pos.
    (progn
-   (cl-loop for x from 0 to (symbol-value totalCells)
- 	   (setf startPos x)
-	   until (char-equal (aref maze x) 'x')
+     (cl-loop for x below totalCells
+	      if ((char-equal (aref maze x) ?x) return x))
  	   )
-   ))
+   )
 
  ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
- (defun findRowCol (maze)
+ (defun findRowCol ()
    (progn
    (setq sqSize (isqrt totalCells))
-   (setf ROWS sqSize)
-   (setf COLS sqSize))
+   (setq ROWS sqSize)
+   (setq COLS sqSize)
+   ))
+
+;;*NEW* 11/5 Where we will put out algorithm
+(defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
+
+
+  
   )
-     
