@@ -183,12 +183,12 @@
     (setq finalArray (make-vector totalCells tempList)))))
 
 
- ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.
+  ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.*EDITED* 11/6
  (defun startPos (maze)
    ;;the first x in the maze is the sstarting pos.
    (progn
      (cl-loop for x below totalCells
-	      if ((char-equal (aref maze x) ?x) return x))
+	      do(if ((char-equal (aref maze x) ?x) return x)))
  	   )
    )
 
