@@ -202,21 +202,38 @@
 
 ;;NOT DONE YET
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
-  (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
   (defvar decisions)
   (setf decisions '()) ;;store locations where decisions were made
   (defvar startIndex)
-  (setf startIndex (cl-position 'x mazeArray));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
+  (setf startIndex (cl-position 'X mazeArray));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
   (defvar endIndex)
   (setf endIndex (cl-position 'o mazeArray))
   (defvar mazePosition)
   (setf mazePosition (goto-char startIndex)) ;;variable is updated when decision is made in loop
   (cl-loop for x in mazeArray until (startIndex)
 	   do((if (equal x startIndex) t
-		(setcar (nthcdr startIndex list) '*)))) ;;change character for starting point
+		(setcar (nthcdr startIndex mazeArray) '*)))) ;;change character for starting point
   (cl-loop for y in mazeArray until (endIndex)
-	   do((goto-char mazePosition)      
+	   do((goto-char mazePosition)
+	      (if (equal (cl-position 'x (cl-position (- mazePosition 15))) t) t
+	          do((setf mazePosition (goto-char (- mazePosition 15)))
+		     (setcar (nthcdr (cl-position (- mazePosition 15))mazeArray) '*)
+		     (push (cl-position (- mazePosition 15)decisions))))
+	      (if (equal (cl-position 'x (cl-position(+ mazePosition 15))) t) t
+		  do((setf mazePosition (goto-char (+ mazePosition 15)))
+		     (setcar (nthcdr (cl-position (+ mazePosition 15))mazeArray) '*)
+		     (push (cl-position (+ mazePosition 15)decisions))))
+	      (if (equal (cl-position 'x (cl-position (+ mazePosition 1))) t) t
+		  do((setf mazePosition (goto-char (+ mazePosition 1)))
+		     (setcar (nthcdr (cl-position (+ mazePosition 1))mazeArray) '*)
+		     (push (cl-position (+ mazePosition 1) decision))))
+	      (if (equal (cl-position 'x (cl-position ( - mazePosition 1))) t) t
+		  do((setf mazePosition (goto-char (- mazePosition 1)))
+		     (setcar (nthcdr (cl-position (- mazePosition 1))mazeArray) '*)
+		     (push (cl-position (- mazePosition 1) decision))))
+	      ;;only evaluates for values that are valid. Any indices that are a 0 are skipped in the current evaluation of the loop.
+	      ;;figure out way of printing out updated maze after each iteration. Or we could just print the maze after the macro	    
+		   
+	   )
+       )
   )
- )
-
-)
