@@ -56,10 +56,14 @@
 ;;changed 11/5 so that it works with a 1d array instead of a 2d list. sorry had to eliminate recursion,
 ;;it was sweet Dr. Sam, sorry you missed it. printed a nested 2d list in 5 lines of code using princ terpri and recursion.
 (defun printMaze (mazer arrSize arrRows)
-    (cl-loop for i from 1 to arrSize
+  (setq space ?\s)
+    (cl-loop for i from 0 to (- arrSize 1)
 	     do(if(eq (mod i arrRows) 0)
 		   (terpri))
-	     do(princ (string (aref mazer (- i 1)) " "))))
+	     do(princ (aref mazer i))))
+
+;for testing
+(setq arry [0 1 2 2 2 A a 2 1])
 
 
 ;;*KINDANEW* 11/5 Changing this method to be very similar to a "main" method.
