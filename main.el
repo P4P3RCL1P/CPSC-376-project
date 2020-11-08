@@ -18,9 +18,10 @@
 (setq arrMaze2 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0])
 (setq arrMaze3 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
 
-(setq listMaze1 (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
-(setq listMaze2 (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
-(setq listMaze3 (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+(setq listMaze1 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+(setq listMaze2 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
+(setq listMaze3 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+
 
 
 
@@ -224,38 +225,63 @@
 
 ;;NOT DONE YET
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
-  (defvar decisions)
-  (setf decisions '()) ;;store locations where decisions were made
+  (setq up '());;store locations where decisions were made
+  (setq down '())
+  (setq right '())
+  (setq left '())
+  (setq decisions '())
+  (defvar numOfDecisions)
+  (setf numOfDecisions '()) ;;stores index where more than one decision could've been made
+  (defvar counter)
+  (setf counter 0)
   (defvar startIndex)
   (setf startIndex (cl-position 'X mazeArray));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
   (defvar endIndex)
   (setf endIndex (cl-position 'o mazeArray))
   (defvar mazePosition)
   (setf mazePosition (goto-char startIndex)) ;;variable is updated when decision is made in loop
-  (cl-loop for x in mazeArray until (startIndex)
+  (cl-loop for x across mazeArray until (startIndex) ;;the across keyword allows us to iterate through an array 
 	   do((if (equal x startIndex) t
-		(setcar (nthcdr startIndex mazeArray) '*)))) ;;change character for starting point
-  (cl-loop for y in mazeArray until (endIndex)
+		(setcar (nthcdr startIndex mazeArray) '*)))) ;;change character for starting point 
+  (cl-loop for y across mazeArray until (endIndex)
 	   do((goto-char mazePosition)
-	      (if (equal (cl-position 'x (cl-position (- mazePosition 15))) t) t
-	          do((setf mazePosition (goto-char (- mazePosition 15)))
-		     (setcar (nthcdr (cl-position (- mazePosition 15))mazeArray) '*)
-		     (push (cl-position (- mazePosition 15)decisions))))
-	      (if (equal (cl-position 'x (cl-position(+ mazePosition 15))) t) t
-		  do((setf mazePosition (goto-char (+ mazePosition 15)))
-		     (setcar (nthcdr (cl-position (+ mazePosition 15))mazeArray) '*)
-		     (push (cl-position (+ mazePosition 15)decisions))))
-	      (if (equal (cl-position 'x (cl-position (+ mazePosition 1))) t) t
-		  do((setf mazePosition (goto-char (+ mazePosition 1)))
-		     (setcar (nthcdr (cl-position (+ mazePosition 1))mazeArray) '*)
-		     (push (cl-position (+ mazePosition 1) decision))))
-	      (if (equal (cl-position 'x (cl-position ( - mazePosition 1))) t) t
-		  do((setf mazePosition (goto-char (- mazePosition 1)))
-		     (setcar (nthcdr (cl-position (- mazePosition 1))mazeArray) '*)
-		     (push (cl-position (- mazePosition 1) decision))))
+	      (if (equal (cl-position 'x (cl-position (- mazePosition 15))) t)
+	            (progn(setf mazePosition (goto-char (- mazePosition 15))) ;;progn will allow for multistatement execution within the if statement (might solve our macro expansion error)
+		          (setcar (nthcdr (cl-position (- mazePosition 15))mazeArray) '*)
+		          (push (cl-position (- mazePosition 15) up))
+			  (push (cl-position (- mazePosition 15) decisions))
+			  (setf counter (+ counter 1))))
+	      (if (equal (cl-position 'x (cl-position(+ mazePosition 15))) t)
+		    (progn(setf mazePosition (goto-char (+ mazePosition 15)))
+		          (setcar (nthcdr (cl-position (+ mazePosition 15))mazeArray) '*)
+		          (push (cl-position (+ mazePosition 15)down))
+			  (push (cl-position (+ mazePosition 15) decisions))
+			  (setf counter (+ counter 1))))
+	      (if (equal (cl-position 'x (cl-position (+ mazePosition 1))) t)
+		    (progn(setf mazePosition (goto-char (+ mazePosition 1)))
+		          (setcar (nthcdr (cl-position (+ mazePosition 1))mazeArray) '*)
+		          (push (cl-position (+ mazePosition 1) right))
+			  (push (cl-position (+ mazePosition 1) decisions))
+		          (setf counter (+ counter1))))
+	      (if (equal (cl-position 'x (cl-position ( - mazePosition 1))) t)
+		    (progn(setf mazePosition (goto-char (- mazePosition 1)))
+		          (setcar (nthcdr (cl-position (- mazePosition 1))mazeArray) '*)
+		          (push (cl-position (- mazePosition 1) left))
+			  (push (cl-position (- mazePosition 15) decisions))
+		          (setf counter (+ counter 1))))
+	      ;;determine the number of decisions that were made for future reference.
+	      (cl-case counter
+		(2 (push (cl-position mazePosition numOfDecisions)))
+		(3 (push (cl-position mazePosition numOfDecisions)))
+		(4 (push (cl-position mazePosition numOfDecisions))))
+	      (if (equal counter 1)
+                  (progn (goto-char (reverse(cdr (reverse decisions))))
+
+		     )
+		  )
+	      (setf counter 0)
 	      ;;only evaluates for values that are valid. Any indices that are a 0 are skipped in the current evaluation of the loop.
-	      ;;figure out way of printing out updated maze after each iteration. Or we could just print the maze after the macro	    
-		   
+	      ;;figure out way of printing out updated maze after each iteration. Or we could just print the maze after the last iteration
 	   )
        )
   )
