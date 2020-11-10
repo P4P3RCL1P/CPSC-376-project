@@ -1,27 +1,41 @@
 ;;;; CPSC 376 Pathfinding Algorithm
 ;;;; David Gillette & Adam Schultz
 ;;;; 9/20/2020
-(defconst ROWS 15 "Number of rows in maze")        ;should by dynamically set based on user input
-(defconst COLUMNS 15 "Number of columns in maze")  ;but for testing purposes we will stick to a static value
-(defvar *totalCells*) 
-(setf totalCells (* ROWS COLUMNS))
+(defvar ROWS); "Number of rows in maze")        ;should by dynamically set based on user input
+(defvar COLS) ; "Number of columns in maze")  ;but for testing purposes we will stick to a static value
+(defvar totalCells) 
 (defvar maze1)
-(setf maze1 "maze.txt")
+(setf maze1 "maze1.txt")
 (defvar maze2)
 (setf maze2 "maze2.txt")
 (defvar maze3)
 (setf maze3 "maze3.txt")
-;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
 
-;;added mazes in the forms of 1d arrays and lists.
-(setq arrMaze1 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
-(setq arrMaze2 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0])
-(setq arrMaze3 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
 
-(setq listMaze1 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
-(setq listMaze2 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
-(setq listMaze3 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+;;THis is basically our constructor for these vars so we dont have to worry about them. I am gonna adda call to this in start maze or wherever they pick the maze.
+(defun initVars (file)
+  (setq longList (file-to-matrix file))
+  (setq ROWS (length longList))
+  (setq COLS ROWS)
+  (setq totalCells (length (listsToList '() longList)))
+  (print ROWS)
+  (print COLS)
+  (print totalCells))
 
+
+
+
+;fixed my func so we dont need these
+;; (setq arrMaze1 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
+;; (setq arrMaze2 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0])
+;; (setq arrMaze3 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
+
+;; (setq listMaze1 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+;; (setq listMaze2 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
+;; (setq listMaze3 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+;; ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
+
+;;start prog - ask what maze - solve the maze
 
 
 
@@ -173,7 +187,7 @@
   )  
 )
 
-
+;;made a different func so this one is not needed.
 ;;this kinda works, thre is some problem with scope, spent 6 hours working on it and I cant find the solution.
 ;;it will have the full list on the last iteration but it is not successfully pusing it to the list outside of the nested loop. edited 11/7
 ;;*NEW* this method fills an 1d array (vector) with the contents of a given file
@@ -205,6 +219,26 @@
   (setq finalArray (make-vector totalCells mainList))
 )
 
+
+
+;;*NEW* this may be the fix for file-to-array
+(defun listsToList (emptyList  lists)
+  (if (equal (length lists) 1)
+      (setq emptyList (append emptyList (car lists)))
+    (progn
+      (setq emptyList (append emptyList (car lists)))
+      (listsToList emptyList (cdr lists)))))
+
+;;*NEW* this function uses the listsTOList function and makes a 1d array out of one of our maze text files.
+(defun listToArray (file)
+  (setq mainList (listsToList '() (file-to-matrix file)))
+  (setq totalCells (length mainList))
+  (setq finalArr (make-vector totalCells 0))
+  (cl-loop for x to (- totalCells 1)
+	   do (aset finalArr x (car mainList))
+	   (setq mainList (cdr mainList)))
+  (copy-sequence finalArr))
+ 
 
   ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.*EDITED* 11/6
  (defun startPos (maze)
