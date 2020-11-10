@@ -22,26 +22,11 @@
   (print COLS)
   (print totalCells))
 
-
-
-
-;fixed my func so we dont need these
-;; (setq arrMaze1 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
-;; (setq arrMaze2 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0])
-;; (setq arrMaze3 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
-
-;; (setq listMaze1 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
-;; (setq listMaze2 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
-;; (setq listMaze3 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
-;; ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
-
-;;start prog - ask what maze - solve the maze
-
-
-
 (require 'ido)
 (require 'cl-lib)
 (load "cl-extra")
+
+
 ;;macgyvered method of having 2d arrays because elisp did not build them into their language design.
 (defun file-to-matrix (filename)
   (with-temp-buffer
@@ -53,6 +38,8 @@
           (push (split-string (buffer-substring beg (point)) " ") list)
           (forward-char)))
       (nreverse list))))
+
+      ;;for ttesting
 (setq mazy (list 
   '(x x x x x)
   '(x 0 0 x x)
@@ -60,6 +47,9 @@
   '(x x x x x)
   '(x x x x x)
 ))
+
+
+;;do we use this? I dont. -D
 (defun iterateMaze (mazeList)    
 (with-temp-buffer
 (insert-file-contents "maze.txt" nil 0 500)
@@ -83,41 +73,26 @@
 (setq arry [0 1 2 2 2 A a 2 1])
 
 
-;;*KINDANEW* 11/5 Changing this method to be very similar to a "main" method.
-(defun startMaze ()
-    (message "Welcome to the Maze Solver")  
-    (defvar mazeName)
-    ;;starts the maze and asks the user what maze they would like.
-    ;; this sets mazeName with the correct filename of the maze we are using.
-      (setq mazeName (initializeMaze))
-      (with-temp-buffer
-	;;this uses file-to-matrix to create a 1d array that represents the maze.
-	;; file to array also finds the length of the array (not last index, example: '1 '2 '3 = length 3)
-	(setq mazeArr(file-to-array mazeName))
-	;;finds the start index and 
-	(setq startIndex (starPos mazeArr))
+;;this method is called with the correct file that the user chooses and then calls the proper funcs to run the program.
+(defun startMaze (file)  
+  (with-temp-buffer
+    ;initiallizes totalCells, ROWS, COLS, and mazeArr to vals.    
+	(initVars file)
 	;;this is a copy of the maze so we have a before and after
-	(setq initialMaze (make-vector totalCells '0))	
-	(cl-loop for x below totalCells
-		 do (aset initialMaze x (aref mazeArr x)))
-	(findRowCol)
+	(setq initialMaze (file-to-array file)) 
 	;;solving the maze
-	(setq mazeArr (solveMaze ROWS COLS totalCells mazeArr)))
+	(setq mazeArr (solveMaze ROWS COLS totalCells (file-to-array file))))
       ;;printing out the unsolved and solved maze.
       (message "the maze before it was solved:
 ")
-      (printMaze initialMaze totalCells)
+      (printMaze initialMaze totalCells ROWS)
       (message "the maze before after it was solved:
 ")
-      (printMaze mazeArr totalCells)
+      (printMaze mazeArr totalCells ROWS)
       
       )
 
-
-
-
-
-
+;;this func asks the user which maze they want.
 (defun pickMaze()
   (interactive)
   (message "Choose the maze you would like to see (1, 2, or 3)")
@@ -128,11 +103,12 @@
     (t (message "invalid input")))
   )
 
+;;this function is similar to a main and starts our program, asking the user if they want to see a maze solved
 (defun initializeMaze ()
   (interactive)
   (message (read-string "Enter your name:"))
   
-  (if (y-or-n-p "Would you like to solve a maze?")
+  (if (y-or-n-p "Would you like to solve a maze solved?")
     (progn
       (pickMaze)
     )
@@ -142,86 +118,38 @@
   )
  )
 
+;;this is the old version before I made it cool and good with recursion. (also made it work)
+;; ;;*NEW* this method fills an 1d array (vector) with the contents of a given file
+;; (defun file-to-array (file)
+;;   (with-temp-buffer
+;;     ;;idk if this works.
+;;     ;;maybe this instead?km
+;;     ;;(setq tempList (cl-loop for x in (insert-file-contents file) collect x))
+;;     (setq tempList (file-to-matrix file))
+;;     (setq mainList '())
+;;     (setq otherTemp '())
+;;     (setq listLength (- (length tempList) 1))
 
-;;binding keys
-(defun bindKeys () (
-  (global-set-key (w) 'up)
-  (global-set-key (a) 'left)
-  (global-set-key (s) 'down)
-  (global-set-key (d) 'right)
- )
-)
-;;unbinding keys (if needed)
+;;     ;;maybe this will work. no.
+;;     ;;(setq mainBoi (cl-loop for x in tempList collect (cl-loop for i in x collect x)))
 
-
-;;functions to move up. down. left and right inside the maze.
-(defun down (pos) (
-  (if (equals (bigMaze1((+ pos ROWS))) 0)
-      nil   ;;then part
-    (+ pos ROWS) ;;else part
-    )
-  )
-)
-
-(defun up (pos) (
-  (if (equals (bigMaze1((- pos ROWS))) 0)
-      nil   ;;then part
-    (- pos ROWS) ;;else part
-   )
-  )  
-)
-
-(defun left (pos) (
-  (if (equals (bigMaze1((- pos 1))) 0)
-      nil   ;;then part
-    (- pos 1) ;;else part
-    )
-  )  
-)
-
-(defun right (pos) (
-  (if (equals (bigMaze1((+ pos 1))) 0)
-      nil   ;;then part
-    (+ pos 1) ;;else part
-    )
-  )  
-)
-
-;;made a different func so this one is not needed.
-;;this kinda works, thre is some problem with scope, spent 6 hours working on it and I cant find the solution.
-;;it will have the full list on the last iteration but it is not successfully pusing it to the list outside of the nested loop. edited 11/7
-;;*NEW* this method fills an 1d array (vector) with the contents of a given file
-(defun file-to-array (file)
-  (with-temp-buffer
-    ;;idk if this works.
-    ;;maybe this instead?km
-    ;;(setq tempList (cl-loop for x in (insert-file-contents file) collect x))
-    (setq tempList (file-to-matrix file))
-    (setq mainList '())
-    (setq otherTemp '())
-    (setq listLength (- (length tempList) 1))
-
-    ;;maybe this will work. no.
-    ;;(setq mainBoi (cl-loop for x in tempList collect (cl-loop for i in x collect x)))
-
-     (cl-loop for i to listLength
-     	     do 
-     	     (setq otherTemp (car tempList))
-     	     (setq tempList (cdr tempList))	      
-   	     (cl-loop for x to listLength
-     		      do
-		      (push (car otherTemp) mainList)	
-    		      (setq otherTemp (cdr otherTemp))))
+;;      (cl-loop for i to listLength
+;;      	     do 
+;;      	     (setq otherTemp (car tempList))
+;;      	     (setq tempList (cdr tempList))	      
+;;    	     (cl-loop for x to listLength
+;;      		      do
+;; 		      (push (car otherTemp) mainList)	
+;;     		      (setq otherTemp (cdr otherTemp))))
      
-     (nreverse otherTemp)
-     (print otherTemp)
-    (setq totalCells (length mainList)))
-  (setq finalArray (make-vector totalCells mainList))
-)
+;;      (nreverse otherTemp)
+;;      (print otherTemp)
+;;     (setq totalCells (length mainList)))
+;;   (setq finalArray (make-vector totalCells mainList))
+;;   )
 
 
-
-;;*NEW* this may be the fix for file-to-array
+;;*NEW* this method takes in an empty list and a 2d list and returns a 1d version of the nested list
 (defun listsToList (emptyList  lists)
   (if (equal (length lists) 1)
       (setq emptyList (append emptyList (car lists)))
@@ -230,7 +158,8 @@
       (listsToList emptyList (cdr lists)))))
 
 ;;*NEW* this function uses the listsTOList function and makes a 1d array out of one of our maze text files.
-(defun listToArray (file)
+;;it does this by taking in a the 1d list created by ListsToList and makes it into an array.
+(defun file-to-array (file)
   (setq mainList (listsToList '() (file-to-matrix file)))
   (setq totalCells (length mainList))
   (setq finalArr (make-vector totalCells 0))
@@ -238,16 +167,7 @@
 	   do (aset finalArr x (car mainList))
 	   (setq mainList (cdr mainList)))
   (copy-sequence finalArr))
- 
 
-  ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.*EDITED* 11/6
- (defun startPos (maze)
-   ;;the first x in the maze is the sstarting pos.
-   (progn
-     (cl-loop for x below totalCells
-	      do(if ((char-equal (aref maze x) ?x) return x)))
- 	   )
-   )
 
  ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
  (defun findRowCol ()
@@ -257,6 +177,14 @@
    (setq COLS sqSize)
    ))
 
+;for testing
+(setq mazeRows 3)
+(setq mazeCols 3)
+(setq mazeSize 9)
+(setq mazeArray [0 x 0 0 x 0 0 x 0])
+
+
+;;NOT DONE YET
 ;;potentially causing a macro expansion error
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
   (setq up '());;store locations where decisions were made
@@ -284,36 +212,36 @@
 	      (if (equal (cl-position 'x (cl-position (- mazePosition 15))) t)
 	            (progn(setf mazePosition (goto-char (- mazePosition 15))) ;;progn will allow for multistatement execution within the if statement (might solve our macro expansion error)
 		          (setcar (nthcdr (cl-position (- mazePosition 15))mazeArray) '*)
-		          (push (cl-position (- mazePosition 15) up))
-			  (push (cl-position (- mazePosition 15) decisions))
+		          (push (cl-position (- mazePosition 15)) up)
+			  (push (cl-position (- mazePosition 15)) decisions)
 			  (setf counter (+ counter 1))
 			  (push 'counterList counter)))
 	      (if (equal (cl-position 'x (cl-position(+ mazePosition 15))) t)
 		    (progn(setf mazePosition (goto-char (+ mazePosition 15)))
 		          (setcar (nthcdr (cl-position (+ mazePosition 15))mazeArray) '*)
-		          (push (cl-position (+ mazePosition 15)down))
-			  (push (cl-position (+ mazePosition 15) decisions))
+		          (push (cl-position (+ mazePosition 15))down)
+			  (push (cl-position (+ mazePosition 15)) decisions)
 			  (setf counter (+ counter 1))
 			  (push 'counterList counter)))
 	      (if (equal (cl-position 'x (cl-position (+ mazePosition 1))) t)
 		    (progn(setf mazePosition (goto-char (+ mazePosition 1)))
 		          (setcar (nthcdr (cl-position (+ mazePosition 1))mazeArray) '*)
-		          (push (cl-position (+ mazePosition 1) right))
-			  (push (cl-position (+ mazePosition 1) decisions))
+		          (push (cl-position (+ mazePosition 1)) right)
+			  (push (cl-position (+ mazePosition 1)) decisions)
 		          (setf counter (+ counter1))
 			  (push 'counterList counter)))
 	      (if (equal (cl-position 'x (cl-position ( - mazePosition 1))) t)
 		    (progn(setf mazePosition (goto-char (- mazePosition 1)))
 		          (setcar (nthcdr (cl-position (- mazePosition 1))mazeArray) '*)
-		          (push (cl-position (- mazePosition 1) left))
-			  (push (cl-position (- mazePosition 15) decisions))
+		          (push (cl-position (- mazePosition 1)) left)
+			  (push (cl-position (- mazePosition 15)) decisions)
 		          (setf counter (+ counter 1))
 			  (push 'counterList counter))))
 	      ;;determine the number of decisions that were made for future reference.
 	      (cl-case counter
-		(2 (push (cl-position mazePosition numOfDecisions)))
-		(3 (push (cl-position mazePosition numOfDecisions)))
-		(4 (push (cl-position mazePosition numOfDecisions))))
+		(2 (push (cl-position mazePosition) numOfDecisions))
+		(3 (push (cl-position mazePosition) numOfDecisions))
+		(4 (push (cl-position mazePosition) numOfDecisions)))
               (if (equal counter 1)
 	         (progn(while (equal(car 'counterList) 1 )   ;;kinda like the until keyword in a for loop except it isn't lol
 			      (goto-char (reverse(cdr (reverse decisions)))) ;;get last element pushed to decisions list and point to that element

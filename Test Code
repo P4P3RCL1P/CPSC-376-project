@@ -7,6 +7,17 @@ method to move the user through the list
 methods to move the the user through the list
 
 
+;fixed my func so we dont need these
+;; (setq arrMaze1 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
+;; (setq arrMaze2 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0])
+;; (setq arrMaze3 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0])
+
+;; (setq listMaze1 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 0 0 0 0 0 0 0 x x 0 0 x x x 0 0 0 0 0 0 0 0 x 0 0 0 x 0 0 0 0 0 0 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+;; (setq listMaze2 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x x x x x x x 0 0 0 0 0 0 x x x 0 0 x 0 0 x x x 0 0 0 0 0 0 x x x x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x x x 0 0 0 x 0 0 0 x 0 x 0 0 0 0 0 0 0 x 0 0 0 0 x x x x x 0 0 0 0 0 x x 0 0 x x 0 0 x 0 0 x x 0 0 0 x x x x 0 0 x x 0 x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 0 0 0 0 0 0 x 0 0 0 0 x 0 00 0 0 0 0 0 0 x 0 0 x x x 0 0 0 x x x x x 0 0 0 x x x 0 0 0 0 0 x 0 0 x x x 0 x 0 0 0 0 0 0 0 X 0 0 0 0 X 0 o 0 0 0 0 0))
+;; (setq listMaze3 '(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 x 0 x 0 0 x x x x 0 0 0 0 0 0 x x x x x x 0 0 x x x 0 0 0 0 0 0 x x 0 x 0 0 0 0 x 0 0 0 0 x x x 0 0 x x x x x x 0 0 0 0 0 x 0 0 0 0 0 x 0 x 0 0 x 0 0 0 0 0 0 0 x x x x x 0 0 x 0 0 0 0 0 0 x x 0 0 0 0 0 x x 0 0 0 x x x x 0 x x x x x x 0 0 0 x x 0 0 x x x 0 x 0 0 x x 0 0 x 0 0 0 0 0 x 0 0 0 0 x 0 0 0 x 0 x 0 0 x x 0 0 x x x 0 0 0 x x x 0 0 x 0 0 0 x 0 0 0 0 0 x 0 0 0 x x x 0 x x 0 0 0 0 0 0 0 0 0 0 0 X 0 o 0 0 0 0 0))
+;; ;;;;list of a 15x15 maze utilizing a vector of a vector. Elisp does not support multidimensional arrays
+
+;;start prog - ask what maze - solve the maze
 
 
 
@@ -87,3 +98,60 @@ methods to move the the user through the list
   (if (a left))
   (if (d right))
 )
+
+
+;;binding keys
+(defun bindKeys () (
+  (global-set-key (w) 'up)
+  (global-set-key (a) 'left)
+  (global-set-key (s) 'down)
+  (global-set-key (d) 'right)
+ )
+)
+;;unbinding keys (if needed)
+
+
+;;functions to move up. down. left and right inside the maze.
+(defun down (pos) (
+  (if (equals (bigMaze1((+ pos ROWS))) 0)
+      nil   ;;then part
+    (+ pos ROWS) ;;else part
+    )
+  )
+)
+
+(defun up (pos) (
+  (if (equals (bigMaze1((- pos ROWS))) 0)
+      nil   ;;then part
+    (- pos ROWS) ;;else part
+   )
+  )  
+)
+
+(defun left (pos) (
+  (if (equals (bigMaze1((- pos 1))) 0)
+      nil   ;;then part
+    (- pos 1) ;;else part
+    )
+  )  
+)
+
+(defun right (pos) (
+  (if (equals (bigMaze1((+ pos 1))) 0)
+      nil   ;;then part
+    (+ pos 1) ;;else part
+    )
+  )  
+)
+
+  ;;*NEW* 11/2 this method finds the starting position of a 1d array passed in a param.*EDITED* 11/6
+ (defun startPos (maze)
+   ;;the first x in the maze is the sstarting pos.
+   (progn
+     (cl-loop for x below totalCells
+	      do(if ((char-equal (aref maze x) ?x) return x)))
+ 	   )
+   )
+
+
+
