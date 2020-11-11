@@ -175,6 +175,125 @@
 (setq mazeArray [0 x 0 0 x 0 0 x 0])
 
 
+;;Helper function for maybeSolve, returns the number of possible directions for the current index.
+(defun numDecisions (argarr argindex argrows)
+  (setq count 0)
+  (progn
+  (if (equal (aref argarr (+ argindex 1)) '"X")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (+ argindex argrows)) '"X")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (- argindex 1)) '"X")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (- argindex argrows)) '"X")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (+ argindex 1)) '"x")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (+ argindex argrows)) '"x")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (- argindex 1)) '"x")
+      (setq count (+ count 1)))
+  (if (equal (aref argarr (- argindex argrows)) '"x")
+      (setq count (+ count 1))))
+  count
+ )
+
+;;this method checks to see if the curIndex is contained in the pastindex array.
+(defun beenHere (curIndex pastIndex)
+  (setq yes nil)
+  (cl-loop for x below (- (length pastIndex) 1)
+	   do (if(equal (aref pastIndex x) curIndex)
+		  (setq yes t)))
+  yes)
+
+;;*new* maybe works 9:13 11/10/2020
+;;arr index rows
+(defun maybeSolve (mazeRows mazeSize file mazeArray)
+  (setq badArr (copy-sequence mazeArray))
+  (setq currentIndex (seq-position mazeArray '"x"))
+  (setq currentDirection "down")
+  (setq decIndex '())
+  (setq finalDirs '())
+  (setq lastIndex 0)
+  (setq decArr (list-to-array badArr))
+  (numDecisions arr currentIndex ROWS)
+
+  ;;while not at the end
+  (while (not (eq (aref mazeArray currentIndex) '"X"))
+  ;;convert the decisions list to an array
+    (setq decArr (list-to-array decIndex))
+    ;;sets how many options (decisions) exist at the point
+    (setq intDecisions (numDecisions decArr currentIndex ROWS))    
+
+  ;;if decisions have been made
+    (if (> (length decArr) 0)
+	(progn
+  ;;if there is "a decision:"
+  ;;this line is sgiving the error, specifically this part: (numDecisions decArr currentIndex ROWS)
+    (if (> (numDecisions decArr currentIndex ROWS) 2)
+	(progn
+  ;;uses beenHere func to see if you have been here before, if oyu have sets the last index to a "0" instead of an x.
+  ;;this allows us to get through the array and fixes circles in the maze problem.
+	  (if (beenHere currentIndex decIndex)
+	      (aset badArr currentIndex "0")
+	    (push currentIndex decIndex))))))
+
+    ;;just moves to the next position and sets current index to the next index and last index to the current one.
+    (if (equal (aref badArr (+ currentIndex 1)) "x")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (+ currentIndex mazeRows)))
+      (progn
+	(if (equal (aref badArr (+ currentIndex 1)) "x")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (- currentIndex 1)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "x")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (- currentIndex mazeRows)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "x")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (+ currentIndex 1)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "X")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (+ currentIndex mazeRows)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "X")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (- currentIndex 1)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "X")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (- currentIndex mazeRows)))
+	  (progn
+	  (if (equal (aref badArr (+ currentIndex 1)) "X")
+	  (progn
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (+ currentIndex 1)))
+	  (progn
+	  (message "this sucker broke"))))))))))))))))))
+    ;;should have an array that represents the maze but with only one path, so then we would move through the array recording each index value. then make the new array except each index value ;;;in the path list is set to an "*", that part isnt done but I am getting an error in a line of code I will mark
+
+  badArr)
+	
+
+
+
+
+
+
+
+
+
+
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
   (setq up '());;store locations where decisions were made
   (setq down '())
