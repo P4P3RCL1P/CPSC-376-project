@@ -172,16 +172,6 @@
 	   (setq workingList (cdr workingList)))
   (copy-sequence toReturn))
 
-
-
- ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
- (defun findRowCol ()
-   (progn
-   (setq sqSize (isqrt totalCells))
-   (setq ROWS sqSize)
-   (setq COLS sqSize)
-   ))
-
 ;for testing
 (setq mazeRows 3)
 (setq mazeCols 3)
@@ -229,75 +219,94 @@
   (setq decIndex '())
   (setq finalDirs '())
   (setq lastIndex 0)
-  (setq decArr (list-to-array badArr)) ;;it should be that func but it should be passed in the decindex, I made another func I forgot to add it
+  (setq decArr (list-to-array badArr))
   (numDecisions arr currentIndex ROWS)
 
-  ;;while not at the end
   (while (not (eq (aref mazeArray currentIndex) '"X"))
-  ;;convert the decisions list to an array
     (setq decArr (list-to-array decIndex))
-    ;;sets how many options (decisions) exist at the point
     (setq intDecisions (numDecisions decArr currentIndex ROWS))    
 
-  ;;if decisions have been made
     (if (> (length decArr) 0)
 	(progn
-  ;;if there is "a decision:"
-  ;;this line is sgiving the error, specifically this part: (numDecisions decArr currentIndex ROWS)
     (if (> (numDecisions decArr currentIndex ROWS) 2)
 	(progn
-  ;;uses beenHere func to see if you have been here before, if oyu have sets the last index to a "0" instead of an x.
-  ;;this allows us to get through the array and fixes circles in the maze problem.
 	  (if (beenHere currentIndex decIndex)
-	      (aset badArr currentIndex "0")
+	      (aset badArr currentIndex 0)
 	    (push currentIndex decIndex))))))
 
-    ;;just moves to the next position and sets current index to the next index and last index to the current one.
-    (if (equal (aref badArr (+ currentIndex 1)) "x")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (+ currentIndex mazeRows)))
-      (progn
+    ;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
+    (if (eq indecisions 1)
 	(if (equal (aref badArr (+ currentIndex 1)) "x")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (- currentIndex 1)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "x")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (- currentIndex mazeRows)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "x")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (+ currentIndex 1)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "X")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (+ currentIndex mazeRows)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "X")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (- currentIndex 1)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "X")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (- currentIndex mazeRows)))
-	  (progn
-	  (if (equal (aref badArr (+ currentIndex 1)) "X")
-	  (progn
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex (+ currentIndex 1)))
-	  (progn
-	  (message "this sucker broke"))))))))))))))))))
-    ;;should have an array that represents the maze but with only one path, so then we would move through the array recording each index value. then make the new array except each index value ;;;in the path list is set to an "*", that part isnt done but I am getting an error in a line of code I will mark
-
-  badArr)
+		(progn
+		  (setq lastIndex currentIndex)
+		  (setq currentIndex (+ currentIndex 1)))
+	      (progn
+		(if (equal (aref badArr (- currentIndex mazeRows)) "x")
+		    (progn
+		      (setq lastIndex currentIndex)
+		      (setq currentIndex (- currentIndex mazeRows)))
+		  (progn
+		    (if (equal (aref badArr (- currentIndex 1)) "x")
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (- currentIndex 1)))
+		      (progn
+			(if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+			    (progn
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (+ currentIndex mazeRows)))
+			  (progn
+			    (message "this sucker broke"))))))))))
+    ;;if the number of decisions is greater than 1 then this makes sure the it doesnt backtrack by mistake.
+    (if (> intDecisions 1)
+	(if (equal (aref badArr (+ currentIndex 1)) "x")
+	    (if (not (eq pastIndex (+ currentIndex 1)))
+		(progn
+		  (setq lastIndex currentIndex)
+		  (setq currentIndex (+ currentIndex 1)))
+	      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+		  (if (not (eq pastIndex (+ currentIndex mazeRows)))
+		      (progn
+			(setq lastIndex currentIndex)
+			(setq currentIndex (+ currentIndex mazeRows)))
+		    (if (equal (aref badArr (- currentIndex 1)) "x")
+			(if (not (eq pastIndex (- currentIndex 1)))
+			    (progn
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (- currentIndex 1)))
+			  (if (equal (aref badArr (- currentIndex mazeRows)))
+			      (if (not (eq pastIndex (- currentIndex mazeRows)))
+				  (progn
+				    (setq lastIndex currentIndex)
+				    (setq currentIndex (- currentIndex mazeRows)))
+				(if (equal (aref badArr (+ currentIndex 1)) "x")
+				    (progn
+				      (setq lastIndex currentIndex)
+				      (setq currentIndex (+ currentIndex 1)))
+				  (progn
+				    (if (equal (aref badArr (- currentIndex mazeRows)) "X")
+					(progn
+					  (setq lastIndex currentIndex)
+					  (setq currentIndex (- currentIndex mazeRows)))
+				      (progn
+					(if (equal (aref badArr (- currentIndex 1)) "X")
+					    (progn
+					      (setq lastIndex currentIndex)
+					      (setq currentIndex (- currentIndex 1)))
+					  (progn
+					    (if (equal (aref badArr (+ currentIndex mazeRows)) "X")
+						(progn
+						  (setq lastIndex currentIndex)
+						  (setq currentIndex (+ currentIndex mazeRows)))
+					      (progn
+						(if (equal (aref badArr (+ currentIndex 1)) "X")
+						  progn
+						  (setq lastIndex currentIndex)
+						  (setq currentIndex (+ currentIndex 1)))
+						(progn
+						  (message "this sucker broke"))))))))))))))))))))
 	
+  badArr)
 
 
 
