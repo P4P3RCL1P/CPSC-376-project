@@ -22,6 +22,7 @@
   (print COLS)
   (print totalCells))
 
+(require 'dash)
 (require 'ido)
 (require 'cl-lib)
 (load "cl-extra")
@@ -47,16 +48,6 @@
   '(x x x x x)
   '(x x x x x)
 ))
-
-
-;;do we use this? I dont. -D
-(defun iterateMaze (mazeList)    
-(with-temp-buffer
-(insert-file-contents "maze.txt" nil 0 500)
-  (if (eq (point) "o")
-   (goto-char (point)))
-  )
-)
 
 
 
@@ -184,73 +175,77 @@
 (setq mazeArray [0 x 0 0 x 0 0 x 0])
 
 
-;;NOT DONE YET
-;;potentially causing a macro expansion error
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
   (setq up '());;store locations where decisions were made
   (setq down '())
   (setq right '())
   (setq left '())
-  (setq decisions '())
-  (defvar numOfDecisions)
-  (setf numOfDecisions '()) ;;stores index where more than one decision could've been made
+  (setq allDecisions '())
+  (defvar multipleDecsions)
+  (setf mulitpleDecisions '());;stores index where more than one decision could've been made
+  (setq forbidden '()) ;;values that lead to dead-ends
   (defvar counter)
   (setf counter 0)
   (setq counterList '())
   (defvar startIndex)
-  (setf startIndex (cl-position 'X mazeArray));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
+  (setf startIndex (seq-position mazeArray '"X"));;finds starting position in 1d array assuming that the element is not wrapped in double quotes
   (defvar endIndex)
-  (setf endIndex (cl-position 'o mazeArray))
+  (setf endIndex (seq-position mazeArray '"o"))
   (defvar mazePosition)
-  (setf mazePosition (goto-char startIndex)) ;;variable is updated when decision is made in loop
-  (cl-loop for x across mazeArray until (startIndex) ;;the across keyword allows us to iterate through an array 
-	   do((if (equal x startIndex) t
-		(setcar (nthcdr startIndex mazeArray) '*)))) ;;change character for starting point 
-  (cl-loop for y across mazeArray until (endIndex)
+  (setf mazePosition startIndex) ;;variable is updated when decision is made in loop
+  (setq x 0)
+  (setq y 0)
+  ;;the across keyword allows us to iterate through an array
+  (setcar (nthcdr startIndex mazeArray) '*);;change character for starting point 
+  (cl-loop for x across mazeArray until endIndex
 	   do((goto-char mazePosition)
-	      (while (not 'decisions)  ;;cannot iterate through already existing decisions
-	      (if (equal (cl-position 'x (cl-position (- mazePosition 15))) t)
-	            (progn(setf mazePosition (goto-char (- mazePosition 15))) ;;progn will allow for multistatement execution within the if statement (might solve our macro expansion error)
-		          (setcar (nthcdr (cl-position (- mazePosition 15))mazeArray) '*)
-		          (push (cl-position (- mazePosition 15)) up)
-			  (push (cl-position (- mazePosition 15)) decisions)
-			  (setf counter (+ counter 1))
-			  (push 'counterList counter)))
-	      (if (equal (cl-position 'x (cl-position(+ mazePosition 15))) t)
-		    (progn(setf mazePosition (goto-char (+ mazePosition 15)))
+	      (while (not 'allDecisions)  ;;cannot iterate through already existing decisions *
+	      (if (equal (nth (- mazePosition 15) listMaze1) x)
+	            (progn(setf mazePosition (goto-char (- mazePosition 15))) ;;progn will allow for multistatement execution within the if statement
+		          (setcar (nthcdr (cl-position (- mazePossition 15))mazeArray) '*)
+		          (push (nth (- mazePosition 15) mazeArray) up)
+			  (push (nth (- mazePosition 15) mazeArray) allDecisions)
+			  (setf counter (+ counter 1))))
+	      (if (equal (nth (+ mazePosition 15) mazeArray) x)
+		    (progn(setf mazePosition (goto-char (-mazePosition 15)))
 		          (setcar (nthcdr (cl-position (+ mazePosition 15))mazeArray) '*)
-		          (push (cl-position (+ mazePosition 15))down)
-			  (push (cl-position (+ mazePosition 15)) decisions)
-			  (setf counter (+ counter 1))
-			  (push 'counterList counter)))
-	      (if (equal (cl-position 'x (cl-position (+ mazePosition 1))) t)
+		          (push (nth (+ mazePosition 15) mazeArray)down)
+			  (push (nth (+ mazePosition 15) mazeArray) allDecisions)
+			  (setf counter (+ counter 1))))
+	      (if (equal (nth (+ mazePosition 1) mazeArray) x)
 		    (progn(setf mazePosition (goto-char (+ mazePosition 1)))
-		          (setcar (nthcdr (cl-position (+ mazePosition 1))mazeArray) '*)
-		          (push (cl-position (+ mazePosition 1)) right)
-			  (push (cl-position (+ mazePosition 1)) decisions)
-		          (setf counter (+ counter1))
-			  (push 'counterList counter)))
-	      (if (equal (cl-position 'x (cl-position ( - mazePosition 1))) t)
+		          (setcar (nthcdr (cl-position (+ mazePosition 1))listMaze1) '*)
+		          (push (nth (+ mazePosition 1) mazeArray) right)
+			  (push (nth (+ mazePosition 1) mazeArray) allDecisions)
+		          (setf counter (+ counter1))))
+	      (if (equal (nth (- mazePosition 1) mazeArray) x)
 		    (progn(setf mazePosition (goto-char (- mazePosition 1)))
-		          (setcar (nthcdr (cl-position (- mazePosition 1))mazeArray) '*)
-		          (push (cl-position (- mazePosition 1)) left)
-			  (push (cl-position (- mazePosition 15)) decisions)
-		          (setf counter (+ counter 1))
-			  (push 'counterList counter))))
+		          (setcar (nthcdr (cl-position (- mazePosition 1))listMaze1) '*)
+		          (push (nth (- mazePosition 1) mazeArray) left)
+			  (push (nth (- mazePosition 15) mazeArray) allDecisions)
+		          (setf counter (+ counter 1))))
+
+	      (push counter counterList)
 	      ;;determine the number of decisions that were made for future reference.
 	      (cl-case counter
-		(2 (push (cl-position mazePosition) numOfDecisions))
-		(3 (push (cl-position mazePosition) numOfDecisions))
-		(4 (push (cl-position mazePosition) numOfDecisions)))
+		(2 (push mazePosition multipleDecisions))
+		(3 (push mazePosition multipleDecisions))
+		(4 (push mazePosition multipleDecisions)))
               (if (equal counter 1)
-	         (progn(while (equal(car 'counterList) 1 )   ;;kinda like the until keyword in a for loop except it isn't lol
-			      (goto-char (reverse(cdr (reverse decisions)))) ;;get last element pushed to decisions list and point to that element
-		     )
-	         )
-	      )
+	          (progn
+		       (while (eq (memql mazePosition forbidden) nil) ;;weeds out any unnecessary back and forth iteration
+		         (setq tempCounter 0)
+			 (nth tempCounter decisions) ;;get last element pushed to decisions list and point to that element
+			 (setf mazePosition (goto-char  (nth tempCounter 'decisions)))
+			 (push (pop decisions)forbidden) ;;always pop the first element in decisions as it will can no longer be used as a valid movement (leads to a dead-end). Move that value to a forbidden list that can later be used to avoid endless iteration
+		    )
+	          )
+		)
 	      (setf counter 0) ;;reset counter for next iteration
 	      ;;only evaluates for values that are valid. Any indices that are a 0 are skipped in the current evaluation of the loop.
 	      ;;figure out way of printing out updated maze after each iteration. Or we could just print the maze after the last iteration
 	   )
        )
+    )
+  
   )
