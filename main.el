@@ -64,24 +64,27 @@
 (setq arry [0 1 2 2 2 A a 2 1])
 
 
+;;this method currently does not call maybesolve or solvemaze.
 ;;this method is called with the correct file that the user chooses and then calls the proper funcs to run the program.
 (defun startMaze (file)  
   (with-temp-buffer
     ;initiallizes totalCells, ROWS, COLS, and mazeArr to vals.    
 	(initVars file)
 	;;this is a copy of the maze so we have a before and after
-	(setq initialMaze (file-to-array file)) 
+	(setq initialMaze (file-to-array file)))
 	;;solving the maze
-	(setq mazeArr (solveMaze ROWS COLS totalCells (file-to-array file))))
-      ;;printing out the unsolved and solved maze.
-      (message "the maze before it was solved:
-")
-      (printMaze initialMaze totalCells ROWS)
-      (message "the maze before after it was solved:
-")
-      (printMaze mazeArr totalCells ROWS)
-      
-      )
+	;(setq mazeArr (solveMaze ROWS COLS totalCells (file-to-array file))))
+	;;printing out the unsolved and solved maze.
+	;(setq mazeArr (maybeSolve ROWS totalCells file (file-to-array file))))
+  (princ "the maze before it was solved:")
+  (printMaze initialMaze totalCells ROWS)
+  (terpri)
+  (terpri)
+      (princ "the maze  after it was solved:")
+      (terpri))
+      ;(printMaze mazeArr totalCells ROWS))
+
+
 
 ;;this func asks the user which maze they want.
 (defun pickMaze()
@@ -159,6 +162,17 @@
 	   (setq mainList (cdr mainList)))
   (copy-sequence finalArr))
 
+  ;;This function returns an array verison of a passed in list. 11/11
+(defun list-to-array (arrList)
+  (setq workingList (copy-sequence arrList))
+  (setq numVals (length workingList))
+  (setq toReturn (make-vector numVals 0))
+  (cl-loop for x to (- numVals 1)
+	   do (aset toReturn x (car workingList))
+	   (setq workingList (cdr workingList)))
+  (copy-sequence toReturn))
+
+
 
  ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
  (defun findRowCol ()
@@ -215,7 +229,7 @@
   (setq decIndex '())
   (setq finalDirs '())
   (setq lastIndex 0)
-  (setq decArr (list-to-array badArr))
+  (setq decArr (list-to-array badArr)) ;;it should be that func but it should be passed in the decindex, I made another func I forgot to add it
   (numDecisions arr currentIndex ROWS)
 
   ;;while not at the end
