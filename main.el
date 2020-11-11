@@ -210,25 +210,25 @@
 		  (setq yes t)))
   yes)
 
+;;maybeSolve ROWS totalCells file (file-to-array file)))
 ;;*new* maybe works 9:13 11/10/2020
 ;;arr index rows
 (defun maybeSolve (mazeRows mazeSize file mazeArray)
-  (setq badArr (copy-sequence mazeArray))
-  (setq currentIndex (seq-position mazeArray '"x"))
-  (setq currentDirection "down")
-  (setq decIndex '())
-  (setq finalDirs '())
-  (setq lastIndex 0)
-  (setq decArr (list-to-array badArr))
-  (numDecisions arr currentIndex ROWS)
+(setq badArr (file-to-array file))
+(setq currentIndex (seq-position mazeArray '"x"))
+(setq decIndex '(0 0))
+(setq lastIndex 0)
+(setq finalDirs '())
+(setq decArr [])
 
-  (while (not (eq (aref mazeArray currentIndex) '"X"))
+;;arrays: decArr badArr mazeArray
+(while (not (eq (aref mazeArray currentIndex) '"X"))
     (setq decArr (list-to-array decIndex))
-    (setq intDecisions (numDecisions decArr currentIndex ROWS))    
+    (setq intDecisions (numDecisions badArr currentIndex ROWS))    
 
     (if (> (length decArr) 0)
 	(progn
-    (if (> (numDecisions decArr currentIndex ROWS) 2)
+    (if (> (numDecisions badArr currentIndex ROWS) 2)
 	(progn
 	  (if (beenHere currentIndex decIndex)
 	      (aset badArr currentIndex 0)
