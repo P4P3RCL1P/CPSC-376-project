@@ -12,17 +12,14 @@
 (setf maze3 "maze3.txt")
 
 
-;;THis is basically our constructor for these vars so we dont have to worry about them. I am gonna adda call to this in start maze or wherever they pick the maze.
+;;This is basically our constructor for these vars so we dont have to worry about them. I am gonna adda call to this in start maze or wherever they pick the maze.
 (defun initVars (file)
   (setq longList (file-to-matrix file))
   (setq ROWS (length longList))
   (setq COLS ROWS)
-  (setq totalCells (length (listsToList '() longList)))
-  (print ROWS)
-  (print COLS)
-  (print totalCells))
+  (setq totalCells (length (listsToList '() longList))))
 
-(require 'dash)
+;(require 'dash)
 (require 'ido)
 (require 'cl-lib)
 (load "cl-extra")
@@ -64,34 +61,32 @@
 (setq arry [0 1 2 2 2 A a 2 1])
 
 
-;;this method currently does not call maybesolve or solvemaze.
 ;;this method is called with the correct file that the user chooses and then calls the proper funcs to run the program.
 (defun startMaze (file)  
-  (with-temp-buffer
     ;initiallizes totalCells, ROWS, COLS, and mazeArr to vals.    
 	(initVars file)
 	;;this is a copy of the maze so we have a before and after
-	(setq initialMaze (file-to-array file)))
-	;;solving the maze
-	;(setq mazeArr (solveMaze ROWS COLS totalCells (file-to-array file))))
+	(setq initialMaze (file-to-array file))
+  ;;solving the maze
+  (setq mazeArr [])
+	;;(setq mazeArr (solveMaze ROWS COLS totalCells (file-to-array file))))
 	;;printing out the unsolved and solved maze.
-	;(setq mazeArr (maybeSolve ROWS totalCells file (file-to-array file))))
+	(setq mazeArr (maybeSolve ROWS totalCells file (file-to-array file)))
   (princ "the maze before it was solved:")
   (printMaze initialMaze totalCells ROWS)
   (terpri)
   (terpri)
       (princ "the maze  after it was solved:")
-      (terpri))
-      ;(printMaze mazeArr totalCells ROWS))
-
-
+      (terpri)
+      (printMaze mazeArr totalCells ROWS))
+      
 
 ;;this func asks the user which maze they want.
 (defun pickMaze()
   (interactive)
   (message "Choose the maze you would like to see (1, 2, or 3)")
   (cl-case (read-char)
-    (?1 (startMaze maze))
+    (?1 (startMaze maze1))
     (?2 (startMaze maze2))
     (?3 (startMaze maze3))
     (t (message "invalid input")))
@@ -162,7 +157,8 @@
 	   (setq mainList (cdr mainList)))
   (copy-sequence finalArr))
 
-  ;;This function returns an array verison of a passed in list. 11/11
+
+;;This function returns an array verison of a passed in list.
 (defun list-to-array (arrList)
   (setq workingList (copy-sequence arrList))
   (setq numVals (length workingList))
@@ -171,6 +167,16 @@
 	   do (aset toReturn x (car workingList))
 	   (setq workingList (cdr workingList)))
   (copy-sequence toReturn))
+
+
+
+ ;;*NEW* 11/2 this method finds the rows and columns of a 1d square array
+ (defun findRowCol ()
+   (progn
+   (setq sqSize (isqrt totalCells))
+   (setq ROWS sqSize)
+   (setq COLS sqSize)
+   ))
 
 ;for testing
 (setq mazeRows 3)
@@ -209,104 +215,121 @@
 	   do (if(equal (aref pastIndex x) curIndex)
 		  (setq yes t)))
   yes)
-
 ;;maybeSolve ROWS totalCells file (file-to-array file)))
 ;;*new* maybe works 9:13 11/10/2020
 ;;arr index rows
 (defun maybeSolve (mazeRows mazeSize file mazeArray)
-(setq badArr (file-to-array file))
-(setq currentIndex (seq-position mazeArray '"x"))
-(setq decIndex '(0 0))
-(setq lastIndex 0)
-(setq finalDirs '())
-(setq decArr [])
+  (setq badArr (file-to-array file))
+  (setq currentIndex (seq-position mazeArray '"x"))
+  (setq decIndex '(0 0))
+  (setq lastIndex 0)
+  (setq finalDirs '())
+  (setq decArr [])
+  (setq count 0)
 
-;;arrays: decArr badArr mazeArray
-(while (not (eq (aref mazeArray currentIndex) '"X"))
-    (setq decArr (list-to-array decIndex))
-    (setq intDecisions (numDecisions badArr currentIndex ROWS))    
+  ;;arrays: decArr badArr mazeArray
+  ;;(while (not (eq (aref mazeArray currentIndex) '"X"))
+  ;;for testing cause enviro breaks and this should work anyway
 
-    (if (> (length decArr) 0)
-	(progn
-    (if (> (numDecisions badArr currentIndex ROWS) 2)
-	(progn
-	  (if (beenHere currentIndex decIndex)
-	      (aset badArr currentIndex 0)
-	    (push currentIndex decIndex))))))
+  (while (< count 500)
+    (setq count (+ count 1))
+    (if (not (eq (aref mazeArray currentIndex) '"X"))
+	(setq decArr (list-to-array decIndex))
+      (setq intDecisions (numDecisions badArr currentIndex ROWS))
 
-    ;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
-    (if (eq indecisions 1)
-	(if (equal (aref badArr (+ currentIndex 1)) "x")
+      (if (> (length decArr) 0)
+	  (progn
+	    (if (> (numDecisions badArr currentIndex ROWS) 2)
 		(progn
-		  (setq lastIndex currentIndex)
-		  (setq currentIndex (+ currentIndex 1)))
+		  (if (beenHere currentIndex decIndex)
+		      (aset badArr currentIndex 0)
+		    (push currentIndex decIndex))))))
+      ;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
+      (if (eq indecisions 1)
+	  (if (equal (aref badArr (+ currentIndex 1)) "x")
 	      (progn
-		(if (equal (aref badArr (- currentIndex mazeRows)) "x")
-		    (progn
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (- currentIndex mazeRows)))
+		(setq lastIndex currentIndex)
+		(setq currentIndex (+ currentIndex 1)))
+	    (progn
+	      (if (equal (aref badArr (- currentIndex mazeRows)) "x")
 		  (progn
-		    (if (equal (aref badArr (- currentIndex 1)) "x")
-			(progn
-			  (setq lastIndex currentIndex)
-			  (setq currentIndex (- currentIndex 1)))
-		      (progn
-			(if (equal (aref badArr (+ currentIndex mazeRows)) "x")
-			    (progn
-			      (setq lastIndex currentIndex)
-			      (setq currentIndex (+ currentIndex mazeRows)))
-			  (progn
-			    (message "this sucker broke"))))))))))
-    ;;if the number of decisions is greater than 1 then this makes sure the it doesnt backtrack by mistake.
-    (if (> intDecisions 1)
-	(if (equal (aref badArr (+ currentIndex 1)) "x")
-	    (if (not (eq pastIndex (+ currentIndex 1)))
+		    (setq lastIndex currentIndex)
+		    (setq currentIndex (- currentIndex mazeRows)))
 		(progn
-		  (setq lastIndex currentIndex)
-		  (setq currentIndex (+ currentIndex 1)))
-	      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
-		  (if (not (eq pastIndex (+ currentIndex mazeRows)))
+		  (if (equal (aref badArr (- currentIndex 1)) "x")
 		      (progn
 			(setq lastIndex currentIndex)
-			(setq currentIndex (+ currentIndex mazeRows)))
-		    (if (equal (aref badArr (- currentIndex 1)) "x")
-			(if (not (eq pastIndex (- currentIndex 1)))
-			    (progn
-			      (setq lastIndex currentIndex)
-			      (setq currentIndex (- currentIndex 1)))
-			  (if (equal (aref badArr (- currentIndex mazeRows)))
-			      (if (not (eq pastIndex (- currentIndex mazeRows)))
-				  (progn
-				    (setq lastIndex currentIndex)
-				    (setq currentIndex (- currentIndex mazeRows)))
-				(if (equal (aref badArr (+ currentIndex 1)) "x")
+			(setq currentIndex (- currentIndex 1)))
+		    (progn
+		      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+			  (progn
+			    (setq lastIndex currentIndex)
+			    (setq currentIndex (+ currentIndex mazeRows)))
+			(progn
+			  (message "this sucker broke"))))))))))
+      ;;if the number of decisions is greater than 1 then this makes sure the it doesnt backtrack by mistake.
+      (if (> intDecisions 1)
+	  (if (equal (aref badArr (+ currentIndex 1)) "x")
+	      (if (not (eq lastIndex (+ currentIndex 1)))
+		  (progn
+		    (setq lastIndex currentIndex)
+		    (setq currentIndex (+ currentIndex 1)))
+		(if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+		    (if (not (eq lastIndex (+ currentIndex mazeRows)))
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (+ currentIndex mazeRows)))
+		      (if (equal (aref badArr (- currentIndex 1)) "x")
+			  (if (not (eq lastIndex (- currentIndex 1)))
+			      (progn
+				(setq lastIndex currentIndex)
+				(setq currentIndex (- currentIndex 1)))
+			    (if (equal (aref badArr (- currentIndex mazeRows)) "x")
+				(if (not (eq lastIndex (- currentIndex mazeRows)))
 				    (progn
 				      (setq lastIndex currentIndex)
-				      (setq currentIndex (+ currentIndex 1)))
-				  (progn
-				    (if (equal (aref badArr (- currentIndex mazeRows)) "X")
-					(progn
-					  (setq lastIndex currentIndex)
-					  (setq currentIndex (- currentIndex mazeRows)))
+				      (setq currentIndex (- currentIndex mazeRows)))
+				  (if (equal (aref badArr (- currentIndex mazeRows)) "X")
 				      (progn
-					(if (equal (aref badArr (- currentIndex 1)) "X")
-					    (progn
-					      (setq lastIndex currentIndex)
-					      (setq currentIndex (- currentIndex 1)))
+					(setq lastIndex currentIndex)
+					(setq currentIndex (- currentIndex mazeRows)))
+				    (progn
+				      (if (equal (aref badArr (- currentIndex 1)) "X")
 					  (progn
-					    (if (equal (aref badArr (+ currentIndex mazeRows)) "X")
-						(progn
-						  (setq lastIndex currentIndex)
-						  (setq currentIndex (+ currentIndex mazeRows)))
+					    (setq lastIndex currentIndex)
+					    (setq currentIndex (- currentIndex 1)))
+					(progn
+					  (if (equal (aref badArr (+ currentIndex mazeRows)) "X")
 					      (progn
-						(if (equal (aref badArr (+ currentIndex 1)) "X")
-						  progn
-						  (setq lastIndex currentIndex)
-						  (setq currentIndex (+ currentIndex 1)))
-						(progn
-						  (message "this sucker broke"))))))))))))))))))))
+						(setq lastIndex currentIndex)
+						(setq currentIndex (+ currentIndex mazeRows)))
+					    (progn
+					      (if (equal (aref badArr (+ currentIndex 1)) "X")
+						  (progn
+						(setq lastIndex currentIndex)
+						(setq currentIndex (+ currentIndex 1)))
+					      (progn
+						(message "this sucker broke"))))))))))))))))))))
+
+      badArr)
 	
-  badArr)
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
