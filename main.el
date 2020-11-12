@@ -234,39 +234,45 @@
   (while (< count 500)
     (setq count (+ count 1))
     (if (not (eq (aref mazeArray currentIndex) '"X"))
-	(setq decArr (list-to-array decIndex))
-      (setq intDecisions (numDecisions badArr currentIndex ROWS))
-
+	(progn
+	  (setq decArr (list-to-array decIndex))
+	  (setq intDecisions (numDecisions badArr currentIndex ROWS)))
       (if (> (length decArr) 0)
 	  (progn
 	    (if (> (numDecisions badArr currentIndex ROWS) 2)
 		(progn
-		  (if (beenHere currentIndex decIndex)
+		  (if (beenHere currentIndex (list-to-array decIndex))
 		      (aset badArr currentIndex 0)
 		    (push currentIndex decIndex))))))
       ;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
-      (if (eq indecisions 1)
-	  (if (equal (aref badArr (+ currentIndex 1)) "x")
-	      (progn
-		(setq lastIndex currentIndex)
-		(setq currentIndex (+ currentIndex 1)))
-	    (progn
-	      (if (equal (aref badArr (- currentIndex mazeRows)) "x")
-		  (progn
-		    (setq lastIndex currentIndex)
-		    (setq currentIndex (- currentIndex mazeRows)))
-		(progn
-		  (if (equal (aref badArr (- currentIndex 1)) "x")
-		      (progn
-			(setq lastIndex currentIndex)
-			(setq currentIndex (- currentIndex 1)))
-		    (progn
-		      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
-			  (progn
-			    (setq lastIndex currentIndex)
-			    (setq currentIndex (+ currentIndex mazeRows)))
-			(progn
-			  (message "this sucker broke"))))))))))
+      (if (eq intDecisions 1)
+	  (progn
+	    (setq temp lastIndex)
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex temp)))
+      
+	  ;;im dumb this wasnt necessary
+	  ;; (if (equal (aref badArr (+ currentIndex 1)) "x")
+	  ;;     (progn
+	  ;; 	(setq lastIndex currentIndex)
+	  ;; 	(setq currentIndex (+ currentIndex 1)))
+	  ;;   (progn
+	  ;;     (if (equal (aref badArr (- currentIndex mazeRows)) "x")
+	  ;; 	  (progn
+	  ;; 	    (setq lastIndex currentIndex)
+	  ;; 	    (setq currentIndex (- currentIndex mazeRows)))
+	  ;; 	(progn
+	  ;; 	  (if (equal (aref badArr (- currentIndex 1)) "x")
+	  ;; 	      (progn
+	  ;; 		(setq lastIndex currentIndex)
+	  ;; 		(setq currentIndex (- currentIndex 1)))
+	  ;; 	    (progn
+	  ;; 	      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+	  ;; 		  (progn
+	  ;; 		    (setq lastIndex currentIndex)
+	  ;; 		    (setq currentIndex (+ currentIndex mazeRows)))
+	  ;; 		(progn
+	  ;; 		  (message "this sucker broke"))))))))))
       ;;if the number of decisions is greater than 1 then this makes sure the it doesnt backtrack by mistake.
       (if (> intDecisions 1)
 	  (if (equal (aref badArr (+ currentIndex 1)) "x")
@@ -309,9 +315,63 @@
 						(setq lastIndex currentIndex)
 						(setq currentIndex (+ currentIndex 1)))
 					      (progn
-						(message "this sucker broke"))))))))))))))))))))
+						(message "this sucker broke")))))))))))))))))))
 
-      badArr)
+  badArr)
+
+
+(defun dirToList (goodArr mazeRows)
+  (setq lastIndex 0)
+  (setq currentIndex (seq-position goodArr '"x"))
+  (setq finalDirs '())
+  (setq count 0)
+  ;;(while (not (equal (aref goodArr currentIndex) "X"))
+  (while (< count 40)
+    (setq count (+ count 1))
+
+    ;;fix the setq's
+    (if (equal (aref goodArr (+ currentIndex 1)) "x")
+	(progn
+	  (push currentIndex finalDirs)
+	  (setq lastIndex currentIndex)
+	  (setq currentIndex (+ currentIndex 1)))
+      (if (equal (aref goodArr (- currentIndex mazeRows)) "x")
+	  (progn
+	    (push currentIndex finalDirs)
+	    (setq lastIndex currentIndex)
+	    (setq currentIndex (+ currentIndex 1)))
+	(if (equal (aref goodArr (- currentIndex 1)) "x")
+	    (progn
+	      (push currentIndex finalDirs)
+	      (setq lastIndex currentIndex)
+	      (setq currentIndex (+ currentIndex 1)))
+	  (if (equal (aref goodArr (+ currentIndex mazeRows)) "x")
+	      (progn
+		(push currentIndex finalDirs)
+		(setq lastIndex currentIndex)
+		(setq currentIndex (+ currentIndex 1)))
+	    (if (equal (aref goodArr (+ currentIndex 1)) "X")
+		(progn
+		  (push currentIndex finalDirs)
+		  (setq lastIndex currentIndex)
+		  (setq currentIndex (+ currentIndex 1)))
+	      (if (equal (aref goodArr (- currentIndex mazeRows)) "X")
+		  (progn
+		    (push currentIndex finalDirs)
+		    (setq lastIndex currentIndex)
+		    (setq currentIndex (+ currentIndex 1)))
+		(if (equal (aref goodArr (- currentIndex 1)) "X")
+		    (progn
+		      (push currentIndex finalDirs)
+		      (setq lastIndex currentIndex)
+		      (setq currentIndex (+ currentIndex 1)))
+		  (if (equal (aref goodArr (+ currentIndex mazeRows)) "X")
+		      (progn
+			(push currentIndex finalDirs)
+			(setq lastIndex currentIndex)
+			(setq currentIndex (+ currentIndex 1)))
+		    (message "this sucker broke"))))))))))
+  finalDirs)
 	
      
 
