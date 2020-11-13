@@ -92,9 +92,10 @@
     (?2 (startMaze maze2))
     (?3 (startMaze maze3))
     (t (message "invalid input")))
-  )
+  ); Reference [8]
 
 ;;this function is similar to a main and starts our program, asking the user if they want to see a maze solved
+;;Reference for this function [8]
 (defun initializeMaze ()
   (interactive)
   (message (read-string "Enter your name:"))

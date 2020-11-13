@@ -1,0 +1,31 @@
+References used in our code will be commented using [number] to reference parts or lines of code that
+were used in our development.
+Ex:
+•	(+ 1 2)  ;REFERENCE  [11]
+
+1.	https://www.gnu.org/software/emacs/manual/html_node/cl/index.html
+Common Lisp emulation (cl-lib)
+2.	https://www.gnu.org/software/emacs/manual/html_node/cl/Conditionals.html#Conditionals
+Cl-lib conditional statements and switch cases
+3.	https://www.gnu.org/software/emacs/manual/html_node/cl/For-Clauses.html#For-Clauses
+The powerful cl-loop macro contained in the cl-lib package
+4.	https://emacs.stackexchange.com/questions/10492/how-to-get-element-number-in-a-list
+Reference for getting us situated with using cl-lib and how to implement the cl-position in lists. This was not needed later on in our project development as this method only works with lists. As the main function of our algorithm depends on arrays, we later made use of the aref and aset methods.
+5.	https://www.gnu.org/software/emacs/manual/html_node/elisp/Array-Functions.html
+Helpful for determining the scope of array methods available within the elisp language
+6.	https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html
+Documentation for emacs lisp. Lifesaver in referencing what functions do and how to use them 
+7.	https://www.gnu.org/software/emacs/manual/html_node/calc/Matrix-Tutorial.html
+Helped establish the framework for our multidimensional list.
+8.	http://ergoemacs.org/emacs/elisp_idioms_prompting_input.html
+Inspiration for using the ‘ido library. Elaborated on user input methods available in elisp. 
+9.	https://www.gnu.org/software/emacs/manual/html_node/elisp/Reading-Input.html
+GNU Emacs documentation for Reading Input
+10.	https://stackoverflow.com/questions/42603751/how-to-set-an-element-in-a-multi-dimensional-array-in-elisp
+Additional help for determining the value of having multidimensional arrays, and gave us a better perspective of using 1d arrays/lists.
+11.	https://github.com/chrisdone/elisp-guide
+Very helpful guide towards understanding emacs lisp and it’s status in the programming world.
+12.	https://www.youtube.com/watch?v=FppjUvUDO4o
+Tutorial for emacs lisp
+Gained understanding of the Emacs text editor application and gave us an idea of what environment we could switch from repl.
+
