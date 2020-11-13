@@ -225,102 +225,135 @@
 (defun maybeSolve (mazeRows mazeSize file mazeArray)
   (setq badArr (file-to-array file))
   (setq currentIndex (seq-position mazeArray '"x"))
-  (setq decIndex '(0 0))
+  (setq decIndex '())
   (setq lastIndex 0)
   (setq finalDirs '())
   (setq decArr [])
   (setq count 0)
+  (setq runTimes (* 3 mazeSize))
 
   ;;arrays: decArr badArr mazeArray
   ;;(while (not (eq (aref mazeArray currentIndex) '"X"))
   ;;for testing cause enviro breaks and this should work anyway
 
-  (while (< count 10)
+  (cl-loop for x below runTimes
+	   do
+	   (progn
     (setq count (+ count 1))
-    
-    (if (not (eq (aref mazeArray currentIndex) '"X"))
-	(progn
-	  (setq decArr (list-to-array decIndex))
-	  (setq intDecisions (numDecisions badArr currentIndex mazeRows)))
-      (progn
-	(if (> (intDecisions) 2)
-	    (progn
-	      (if (beenHere currentIndex (list-to-array decIndex))
-		  (aset badArr lastIndex '"0")
-		(push currentIndex decIndex))))
-	
-      ;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
-      (if (eq intDecisions 1)
-	  (progn
-	    (setq temp lastIndex)
-	    (setq lastIndex currentIndex)
-	    (setq currentIndex temp)))
       
-	  
-      (if (> intDecisions 1)	
-	(progn
-	  (setq decMade nil)
-	    (if (equal (aref badArr (+ currentIndex 1)) "x")
-		(if (not (eq lastIndex (+ currentIndex 1)))
-		    (if (not decMade)
-		  (progn
-		    (setq decMade t)
-		    (setq lastIndex currentIndex)
-		    (setq currentIndex (+ currentIndex 1))))))
-
-	    (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
-		(if (not (eq lastIndex (+ currentIndex mazeRows)))
-		    (if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (+ currentIndex mazeRows))))))
-
-	    (if (equal (aref badArr (- currentIndex 1)) "x")
-		(if (not (eq lastIndex (- currentIndex 1)))
-		    (if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (- currentIndex 1))))))
+      (if (not (eq (aref mazeArray currentIndex) '"X"))
+	  (progn
+	    (setq decArr (list-to-array decIndex))
+	    (setq intDecisions (numDecisions badArr currentIndex mazeRows))
 	    
-	    (if (equal (aref badArr (- currentIndex mazeRows)) "x")
-		(if (not (eq lastIndex (- currentIndex mazeRows)))
+	    (if (> intDecisions 2)
+		(progn
+		(if (beenHere currentIndex (list-to-array decIndex))
+		    (aset badArr lastIndex '"0")
+		  (push currentIndex decIndex))))
+	
+	;;if the number of decisions is one, meaning it is at a dead end this allows it to backtrack.
+	  ;;(or start if at the beginning)
+	  (if (eq intDecisions 1)
+	      (if (eq lastIndex 0)
+		  (progn
+		    (if (equal (aref badArr (+ currentIndex 1)) "x")
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (+ currentIndex 1))))
+		    
+		    (if (equal (aref badArr (- currentIndex mazeRows)) "x")
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (- currentIndex mazeRows))))
+		    
+		    (if (equal (aref badArr (- currentIndex 1)) "x")
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (- currentIndex 1))))
+		    
+		    (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+			(progn
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (+ currentIndex mazeRows)))))
+		(progn
+		  (setq temp lastIndex)
+		  (setq lastIndex currentIndex)
+		  (setq currentIndex temp))))
+
+	  (if (> intDecisions 1)
+	      (progn
+		(setq decMade nil)
+		
+		(if (equal (aref badArr (+ currentIndex 1)) "x")
+		    (if (not (eq lastIndex (+ currentIndex 1)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (+ currentIndex 1))))))
+		
+		(if (equal (aref badArr (- currentIndex mazeRows)) "x")
+		    (if (not (eq lastIndex (- currentIndex mazeRows)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (- currentIndex mazeRows))))))
+	        
+
+		(if (equal (aref badArr (- currentIndex 1)) "x")
+		    (if (not (eq lastIndex (- currentIndex 1)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (- currentIndex 1))))))
+
+		
+		(if (equal (aref badArr (+ currentIndex mazeRows)) "x")
+		    (if (not (eq lastIndex (+ currentIndex mazeRows)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (+ currentIndex mazeRows))))))
+
+		(if (equal (aref badArr (+ currentIndex 1)) "X")
 		    (if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (- currentIndex mazeRows))))))
+			(progn
+			  (setq decMade t)
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (+ currentIndex 1)))))
 
-	    (if (equal (aref badArr (- currentIndex mazeRows)) "X")
-		(if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (- currentIndex mazeRows)))))
+		(if (equal (aref badArr (- currentIndex mazeRows)) "X")
+		    (if (not decMade)
+			(progn
+			  (setq decMade t)
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (- currentIndex mazeRows)))))
 
-	    (if (equal (aref badArr (- currentIndex 1)) "X")
-		(if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (- currentIndex 1)))))
+		(if (equal (aref badArr (- currentIndex 1)) "X")
+		    (if (not decMade)
+			(progn
+			  (setq decMade t)
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (- currentIndex 1)))))
 
 
-	    (if (equal (aref badArr (+ currentIndex mazeRows)) "X")
-		(if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (+ currentIndex mazeRows)))))
+		(if (equal (aref badArr (+ currentIndex mazeRows)) "X")
+		    (if (not decMade)
+			(progn
+			  (setq decMade t)
+			  (setq lastIndex currentIndex)
+			  (setq currentIndex (+ currentIndex mazeRows)))))
 
-	    (if (equal (aref badArr (+ currentIndex 1)) "X")
-		(if (not decMade)
-		    (progn
-		      (setq decMade t)
-		      (setq lastIndex currentIndex)
-		      (setq currentIndex (+ currentIndex 1))))))))))
-  (dirToList badArr mazeRows file))
+		
+		))
+	  ))))
+  ;(print badArr))
+  badArr)
+  ;(dirToList badArr mazeRows file))
 
 ;;This function takes in an array that is the "solved maze" (one path) and returns a list of the index
 ;;values that it passes though.
@@ -329,67 +362,100 @@
   (setq currentIndex (seq-position goodArr '"x"))
   (setq finalDirs '())
   (setq count 0)
-  (while (not (equal (aref goodArr currentIndex) "X"))
+  (setq maxNum (* mazeRows mazeRows))
+  ;;(while (not (equal (aref goodArr currentIndex) "X"))
   ;;(while (< count 100)
     ;; (setq count (+ count 1))
     ;; (if (eq (mod count 10) 0)
     ;; 	(print (aref goodArr currentIndex)))
     ;;fix the setq's
-    ;;(if (not (equal (aref goodArr currentIndex) "X"))
-	  (if (equal (aref goodArr (+ currentIndex 1)) "x")
-	      (if (not (eq lastIndex (+ currentIndex 1)))
-		(progn
-		  ;;(print "right")
-		  (push currentIndex finalDirs)
-		  (setq lastIndex currentIndex)
-		  (setq currentIndex (+ currentIndex 1)))))
-	  
-	    (if (equal (aref goodArr (- currentIndex mazeRows)) "x")	   
-		  (if (not (eq lastIndex (- currentIndex mazeRows)))
-		      (progn
-			;;(print "up")
-			(push currentIndex finalDirs)
-			(setq lastIndex currentIndex)
-			(setq currentIndex (- currentIndex mazeRows)))))
-	    
-		(if (equal (aref goodArr (- currentIndex 1)) "x")
-			(if (not (eq lastIndex (- currentIndex 1)))
-			    (progn
-			      ;;(print "left")
-			      (push currentIndex finalDirs)
-			      (setq lastIndex currentIndex)
-			      (setq currentIndex (- currentIndex 1)))))
-		
-		    (if (equal (aref goodArr (+ currentIndex mazeRows)) "x")
-			      (if (not (eq lastIndex (+ currentIndex mazeRows)))
-				  (progn
-				    ;;(print "down")
-				    (push currentIndex finalDirs)
-				    (setq lastIndex currentIndex)
-				    (setq currentIndex (+ currentIndex mazeRows)))))
-		    
-	(if (equal (aref goodArr (+ currentIndex 1)) "X")
-	    (progn
-	      (push currentIndex finalDirs)
-	      (setq lastIndex currentIndex)
-	      (setq currentIndex (+ currentIndex 1)))
-	  (if (equal (aref goodArr (- currentIndex mazeRows)) "X")
-	      (progn
-		(push currentIndex finalDirs)
-		(setq lastIndex currentIndex)
-		(setq currentIndex (- currentIndex mazeRows)))
-	    (if (equal (aref goodArr (- currentIndex 1)) "X")
-		  (progn
-		    (push currentIndex finalDirs)
-		    (setq lastIndex currentIndex)
-		    (setq currentIndex (- currentIndex 1)))
-	      (if (equal (aref goodArr (+ currentIndex mazeRows)) "X")
-		  (progn
-		    (push currentIndex finalDirs)
-		    (setq lastIndex currentIndex)
-		    (setq currentIndex (+ currentIndex mazeRows))))))))
-	(push currentIndex finalDirs)
-   (finalFormat finalDirs (file-to-array file)))
+  ;;
+
+  (cl-loop for x below maxNum
+	   do
+	   (progn
+	     (setq decMade nil)
+	     (if (not (equal (aref goodArr currentIndex) "X"))
+		 (progn
+		   (setq decMade nil)
+		   (if (equal (aref goodArr (+ currentIndex 1)) "x")
+		       (if (not (eq lastIndex (+ currentIndex 1)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "right")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (+ currentIndex 1))))))
+
+		   (if (equal (aref goodArr (- currentIndex mazeRows)) "x")
+		       (if (not (eq lastIndex (- currentIndex mazeRows)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "up")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (- currentIndex mazeRows))))))
+
+		   (if (equal (aref goodArr (- currentIndex 1)) "x")
+		       (if (not (eq lastIndex (- currentIndex 1)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "left")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (- currentIndex 1))))))
+
+		   (if (equal (aref goodArr (+ currentIndex mazeRows)) "x")
+		       (if (not (eq lastIndex (+ currentIndex mazeRows)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "down")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (+ currentIndex mazeRows))))))
+
+		   (if (equal (aref goodArr (+ currentIndex 1)) "X")
+		       (if (not decMade)
+			   (progn
+			     (setq decMade t)
+			     (push currentIndex finalDirs)
+			     (setq lastIndex currentIndex)
+			     (setq currentIndex (+ currentIndex 1)))))
+
+		   (if (equal (aref goodArr (- currentIndex mazeRows)) "X")
+
+		       (if (not decMade)
+			   (progn
+			     (setq decMade t)
+			     (push currentIndex finalDirs)
+			     (setq lastIndex currentIndex)
+			     (setq currentIndex (- currentIndex mazeRows)))))
+
+
+		   (if (equal (aref goodArr (- currentIndex 1)) "X")
+		       (if (not decMade)
+			   (progn
+			     (setq decMade t)
+			     (push currentIndex finalDirs)
+			     (setq lastIndex currentIndex)
+			     (setq currentIndex (- currentIndex 1)))))
+
+		   (if (equal (aref goodArr (+ currentIndex mazeRows)) "X")
+		       (if (not decMade)
+			   (progn
+			     (setq decMade t)
+			     (push currentIndex finalDirs)
+			     (setq lastIndex currentIndex)
+			     (setq currentIndex (+ currentIndex mazeRows)))))
+		   (push currentIndex finalDirs)))))
+  (print finalDirs)
+
+  
+  (formatFinal finalDirs (file-to-array file)))
 
 
 
@@ -427,7 +493,7 @@
 
 
 
-
+;;this is discontinued. as in we are not using it.
 (defun solveMaze (mazeRows mazeCols mazeSize mazeArray)
   (setq up '());;store locations where decisions were made
   (setq down '())
@@ -503,25 +569,5 @@
   
   )
 ;;im dumb this wasnt necessary
-	  ;; (if (equal (aref badArr (+ currentIndex 1)) "x")
-	  ;;     (progn
-	  ;; 	(setq lastIndex currentIndex)
-	  ;; 	(setq currentIndex (+ currentIndex 1)))
-	  ;;   (progn
-	  ;;     (if (equal (aref badArr (- currentIndex mazeRows)) "x")
-	  ;; 	  (progn
-	  ;; 	    (setq lastIndex currentIndex)
-	  ;; 	    (setq currentIndex (- currentIndex mazeRows)))
-	  ;; 	(progn
-	  ;; 	  (if (equal (aref badArr (- currentIndex 1)) "x")
-	  ;; 	      (progn
-	  ;; 		(setq lastIndex currentIndex)
-	  ;; 		(setq currentIndex (- currentIndex 1)))
-	  ;; 	    (progn
-	  ;; 	      (if (equal (aref badArr (+ currentIndex mazeRows)) "x")
-	  ;; 		  (progn
-	  ;; 		    (setq lastIndex currentIndex)
-	  ;; 		    (setq currentIndex (+ currentIndex mazeRows)))
-	  ;; 		(progn
-	  ;; 		  (message "this sucker broke"))))))))))
+
       ;;if the number of decisions is greater than 1 then this makes sure the it doesnt backtrack by mistake.
