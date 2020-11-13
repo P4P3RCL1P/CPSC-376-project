@@ -292,25 +292,7 @@
 			      (setq decMade t)
 			      (setq lastIndex currentIndex)
 			      (setq currentIndex (+ currentIndex 1))))))
-		
-		(if (equal (aref badArr (- currentIndex mazeRows)) "x")
-		    (if (not (eq lastIndex (- currentIndex mazeRows)))
-			(if (not decMade)
-			    (progn
-			      (setq decMade t)
-			      (setq lastIndex currentIndex)
-			      (setq currentIndex (- currentIndex mazeRows))))))
-	        
 
-		(if (equal (aref badArr (- currentIndex 1)) "x")
-		    (if (not (eq lastIndex (- currentIndex 1)))
-			(if (not decMade)
-			    (progn
-			      (setq decMade t)
-			      (setq lastIndex currentIndex)
-			      (setq currentIndex (- currentIndex 1))))))
-
-		
 		(if (equal (aref badArr (+ currentIndex mazeRows)) "x")
 		    (if (not (eq lastIndex (+ currentIndex mazeRows)))
 			(if (not decMade)
@@ -319,19 +301,36 @@
 			      (setq lastIndex currentIndex)
 			      (setq currentIndex (+ currentIndex mazeRows))))))
 
+		(if (equal (aref badArr (- currentIndex 1)) "x")
+		    (if (not (eq lastIndex (- currentIndex 1)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (- currentIndex 1))))))
+		
+		(if (equal (aref badArr (- currentIndex mazeRows)) "x")
+		    (if (not (eq lastIndex (- currentIndex mazeRows)))
+			(if (not decMade)
+			    (progn
+			      (setq decMade t)
+			      (setq lastIndex currentIndex)
+			      (setq currentIndex (- currentIndex mazeRows))))))	
+		
+
 		(if (equal (aref badArr (+ currentIndex 1)) "X")
 		    (if (not decMade)
 			(progn
 			  (setq decMade t)
 			  (setq lastIndex currentIndex)
 			  (setq currentIndex (+ currentIndex 1)))))
-
-		(if (equal (aref badArr (- currentIndex mazeRows)) "X")
+		
+		(if (equal (aref badArr (+ currentIndex mazeRows)) "X")
 		    (if (not decMade)
 			(progn
 			  (setq decMade t)
 			  (setq lastIndex currentIndex)
-			  (setq currentIndex (- currentIndex mazeRows)))))
+			  (setq currentIndex (+ currentIndex mazeRows)))))	      
 
 		(if (equal (aref badArr (- currentIndex 1)) "X")
 		    (if (not decMade)
@@ -340,20 +339,20 @@
 			  (setq lastIndex currentIndex)
 			  (setq currentIndex (- currentIndex 1)))))
 
-
-		(if (equal (aref badArr (+ currentIndex mazeRows)) "X")
+		(if (equal (aref badArr (- currentIndex mazeRows)) "X")
 		    (if (not decMade)
 			(progn
 			  (setq decMade t)
 			  (setq lastIndex currentIndex)
-			  (setq currentIndex (+ currentIndex mazeRows)))))
+			  (setq currentIndex (- currentIndex mazeRows)))))
+		
 
 		
 		))
 	  ))))
   ;(print badArr))
-  badArr)
-  ;(dirToList badArr mazeRows file))
+  ;badArr)
+  (dirToList badArr mazeRows file))
 
 ;;This function takes in an array that is the "solved maze" (one path) and returns a list of the index
 ;;values that it passes though.
@@ -378,6 +377,7 @@
 	     (if (not (equal (aref goodArr currentIndex) "X"))
 		 (progn
 		   (setq decMade nil)
+		   
 		   (if (equal (aref goodArr (+ currentIndex 1)) "x")
 		       (if (not (eq lastIndex (+ currentIndex 1)))
 			   (if (not decMade)
@@ -387,26 +387,6 @@
 				 (push currentIndex finalDirs)
 				 (setq lastIndex currentIndex)
 				 (setq currentIndex (+ currentIndex 1))))))
-
-		   (if (equal (aref goodArr (- currentIndex mazeRows)) "x")
-		       (if (not (eq lastIndex (- currentIndex mazeRows)))
-			   (if (not decMade)
-			       (progn
-				 ;;(print "up")
-				 (setq decMade t)
-				 (push currentIndex finalDirs)
-				 (setq lastIndex currentIndex)
-				 (setq currentIndex (- currentIndex mazeRows))))))
-
-		   (if (equal (aref goodArr (- currentIndex 1)) "x")
-		       (if (not (eq lastIndex (- currentIndex 1)))
-			   (if (not decMade)
-			       (progn
-				 ;;(print "left")
-				 (setq decMade t)
-				 (push currentIndex finalDirs)
-				 (setq lastIndex currentIndex)
-				 (setq currentIndex (- currentIndex 1))))))
 
 		   (if (equal (aref goodArr (+ currentIndex mazeRows)) "x")
 		       (if (not (eq lastIndex (+ currentIndex mazeRows)))
@@ -418,6 +398,26 @@
 				 (setq lastIndex currentIndex)
 				 (setq currentIndex (+ currentIndex mazeRows))))))
 
+		   (if (equal (aref goodArr (- currentIndex 1)) "x")
+		       (if (not (eq lastIndex (- currentIndex 1)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "left")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (- currentIndex 1))))))
+		   
+		   (if (equal (aref goodArr (- currentIndex mazeRows)) "x")
+		       (if (not (eq lastIndex (- currentIndex mazeRows)))
+			   (if (not decMade)
+			       (progn
+				 ;;(print "up")
+				 (setq decMade t)
+				 (push currentIndex finalDirs)
+				 (setq lastIndex currentIndex)
+				 (setq currentIndex (- currentIndex mazeRows))))))	   
+
 		   (if (equal (aref goodArr (+ currentIndex 1)) "X")
 		       (if (not decMade)
 			   (progn
@@ -426,15 +426,13 @@
 			     (setq lastIndex currentIndex)
 			     (setq currentIndex (+ currentIndex 1)))))
 
-		   (if (equal (aref goodArr (- currentIndex mazeRows)) "X")
-
+		   (if (equal (aref goodArr (+ currentIndex mazeRows)) "X")
 		       (if (not decMade)
 			   (progn
 			     (setq decMade t)
 			     (push currentIndex finalDirs)
 			     (setq lastIndex currentIndex)
-			     (setq currentIndex (- currentIndex mazeRows)))))
-
+			     (setq currentIndex (+ currentIndex mazeRows)))))
 
 		   (if (equal (aref goodArr (- currentIndex 1)) "X")
 		       (if (not decMade)
@@ -444,15 +442,17 @@
 			     (setq lastIndex currentIndex)
 			     (setq currentIndex (- currentIndex 1)))))
 
-		   (if (equal (aref goodArr (+ currentIndex mazeRows)) "X")
+		   (if (equal (aref goodArr (- currentIndex mazeRows)) "X")
+
 		       (if (not decMade)
 			   (progn
 			     (setq decMade t)
 			     (push currentIndex finalDirs)
 			     (setq lastIndex currentIndex)
-			     (setq currentIndex (+ currentIndex mazeRows)))))
+			     (setq currentIndex (- currentIndex mazeRows))))) 
+
+		   
 		   (push currentIndex finalDirs)))))
-  (print finalDirs)
 
   
   (formatFinal finalDirs (file-to-array file)))
